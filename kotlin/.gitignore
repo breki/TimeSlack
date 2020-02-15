@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
+
+#include gradle jars since they are needed for the build
+!gradle/wrapper/gradle-wrapper.jar
