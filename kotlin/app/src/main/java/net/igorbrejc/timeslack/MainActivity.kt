@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        var deadline = SlackerDeadline (SlackerTime.of(11, 0))
+        val deadline = SlackerDeadline (SlackerTime.of(11, 0))
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -38,7 +38,14 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        chronometer.start()
+        val currentActivityIndex = 0
+        val currentActivity = plan.activities[currentActivityIndex]
+        textCurrentActivity.text = currentActivity.activityName
+        textCurrentActivityRemaining.text = "12"
+
+        val nextActivityIndex = currentActivityIndex + 1
+        val nextActivity = plan.activities[nextActivityIndex]
+        textNextActivity.text = nextActivity.activityName
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
