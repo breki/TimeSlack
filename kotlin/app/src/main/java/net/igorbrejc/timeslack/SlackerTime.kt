@@ -17,4 +17,8 @@ data class SlackerTime internal constructor (private val minutesOfDay: Int) {
             }
         }
     }
+
+    fun add (minutesToAdd: Int): SlackerTime {
+        return SlackerTime(minutesOfDay + minutesToAdd)
+    }
 }
