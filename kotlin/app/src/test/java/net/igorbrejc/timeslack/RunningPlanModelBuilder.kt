@@ -18,13 +18,16 @@ class RunningPlanModelBuilder {
         return this
     }
 
-    fun andPlanStartTime(startTime: SlackerTime): RunningPlanModelBuilder {
-        planStartTime = startTime
-        return this
-    }
+    fun andCurrentActivity(activityIndex: Int, activityStartTime: SlackerTime):
+            RunningPlanModelBuilder {
+        log = when (activityIndex) {
+            0 -> SlackerActivitiesLog(activityStartTime, emptyList())
+            else -> SlackerActivitiesLog(
+                activityStartTime,
+                (0..activityIndex).map { activityStartTime })
+        }
 
-    fun andCurrentActivity(activityIndex: Int, activityStartTime: SlackerTime) {
-        throw NotImplementedError("");
+        return this
     }
 
     fun andCurrentTimeOf(hours: Int, minutes: Int): RunningPlanModelBuilder {
@@ -32,12 +35,16 @@ class RunningPlanModelBuilder {
         return this
     }
 
+    fun andCurrentTimeOf(time: SlackerTime): RunningPlanModelBuilder {
+        currentTime = time
+        return this
+    }
+
     fun build(): RunningPlanModel {
-        return RunningPlanModel(plan!!, currentTime!!)
+        return RunningPlanModel(plan!!, log!!, currentTime!!)
     }
 
     private var plan: SlackerPlan? = null
-    private var planStartTime: SlackerTime? = null
+    private var log: SlackerActivitiesLog? = null
     private var currentTime: SlackerTime? = null
 }
-

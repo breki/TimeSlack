@@ -2,7 +2,8 @@ package net.igorbrejc.timeslack
 
 data class SlackerActivitiesLog(
     val planStartTime: SlackerTime,
-    val activitiesFinishTimes: List<SlackerTime>) {
+    val activitiesFinishTimes: List<SlackerTime>
+) {
 
     fun currentActivityIndex(): Int { return activitiesFinishTimes.count() }
     fun currentActivityStartTime(): SlackerTime {

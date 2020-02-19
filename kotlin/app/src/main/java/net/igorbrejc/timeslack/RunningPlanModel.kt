@@ -3,24 +3,21 @@ package net.igorbrejc.timeslack
 data class RunningPlanModel(
     val plan: SlackerPlan,
     val activitiesLog: SlackerActivitiesLog,
-    val currentTime: SlackerTime) {
-
-    init {
-    }
-
-    fun currentActivity(): SlackerActivity {
-        return plan.activities[activitiesLog.currentActivityIndex()]
-    }
-
+    val currentTime: SlackerTime
+) {
     fun planFinishTime(): SlackerTime {
-        val totalDurationInMinutesForRemainingActivities =
+        currentTime.diffFrom(activitiesLog.currentActivityStartTime())
+
+        val totalDurationInMinutes =
+            currentActivity().durationInMinutes +
             remainingActivities().sumBy { it.durationInMinutes }
-        val totalDurationInMinutesIncludingCurrentActivity =
-            totalDurationInMinutesForRemainingActivities
-            + currentActivity().durationInMinutes
 
         return activitiesLog.currentActivityStartTime()
-            .add(totalDurationInMinutesForRemainingActivities)
+            .add(totalDurationInMinutes)
+    }
+
+    private fun currentActivity(): SlackerActivity {
+        return plan.activities[activitiesLog.currentActivityIndex()]
     }
 
     private fun remainingActivities(): List<SlackerActivity> {

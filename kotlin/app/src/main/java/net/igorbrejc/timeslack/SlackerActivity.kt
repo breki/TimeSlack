@@ -1,7 +1,6 @@
 package net.igorbrejc.timeslack
 
-data class SlackerActivity (
+data class SlackerActivity(
     val activityName: String,
     val durationInMinutes: Int
 )
-
