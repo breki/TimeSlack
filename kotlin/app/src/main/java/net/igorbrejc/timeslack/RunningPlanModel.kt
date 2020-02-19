@@ -9,8 +9,8 @@ data class RunningPlanModel(
         currentTime.diffFrom(activitiesLog.currentActivityStartTime())
 
         val totalDurationInMinutes =
-            currentActivity().durationInMinutes +
-            remainingActivities().sumBy { it.durationInMinutes }
+            currentActivity().durationInMinutes
+            + remainingActivities().sumBy { it.durationInMinutes }
 
         return activitiesLog.currentActivityStartTime()
             .add(totalDurationInMinutes)
