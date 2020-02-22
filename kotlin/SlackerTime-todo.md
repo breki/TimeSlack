@@ -1,9 +1,13 @@
+- calculate and show remaining minutes for the current activity
 - implement model calculation (based on the deadline time and current time) + tests
 - reduce the height of the activity display 
 - implement re-rendering of the activity based on the model
     - how do we refresh, using a timer?
 - add minimum activity duration
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Sat 22.02.
+- The app is now showing the current and next activity from the model, and also the plan finish time.
 
 ## Mon 17.02.
 - Added the basic information to the plan run activity.

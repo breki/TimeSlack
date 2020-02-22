@@ -9,7 +9,7 @@ data class SlackerActivitiesLog(
     fun currentActivityStartTime(): SlackerTime {
         return when (currentActivityIndex()) {
             0 -> planStartTime
-            else -> activitiesFinishTimes[currentActivityIndex()]
+            else -> activitiesFinishTimes[currentActivityIndex() - 1]
         }
     }
 }

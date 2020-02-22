@@ -1,6 +1,6 @@
 package net.igorbrejc.timeslack
 
-import java.lang.IllegalArgumentException
+import java.util.*
 
 data class SlackerTime internal constructor (private val minutesOfDay: Int) {
     val hours: Int = minutesOfDay / 60
@@ -16,6 +16,13 @@ data class SlackerTime internal constructor (private val minutesOfDay: Int) {
                 else -> SlackerTime(hours * 60 + minutes)
             }
         }
+
+        fun now(): SlackerTime {
+            val now = Calendar.getInstance()
+            val hours: Int = now.get(Calendar.HOUR_OF_DAY)
+            val minutes: Int = now.get(Calendar.MINUTE)
+            return of(hours, minutes)
+        }
     }
 
     fun add(minutesToAdd: Int): SlackerTime {
@@ -27,6 +34,6 @@ data class SlackerTime internal constructor (private val minutesOfDay: Int) {
     }
 
     override fun toString(): String {
-        return "$hours:$minutes"
+        return "%d:%02d".format(hours, minutes)
     }
 }

@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        val deadline = SlackerDeadline(SlackerTime.of(11, 0))
+//        val deadline = SlackerDeadline(SlackerTime.of(11, 0))
+        val activitiesLog = SlackerActivitiesLog(
+            SlackerTime.of(9, 0),
+            ImmutableList.of(SlackerTime.of(9, 15)))
+        val currentTime = SlackerTime.now()
+        val model = RunningPlanModel(plan, activitiesLog, currentTime)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -37,14 +42,17 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        val currentActivityIndex = 0
-        val currentActivity = plan.activities[currentActivityIndex]
+        val currentActivity = model.currentActivity()
         textCurrentActivity.text = currentActivity.activityName
         textCurrentActivityRemaining.text = "12"
 
-        val nextActivityIndex = currentActivityIndex + 1
-        val nextActivity = plan.activities[nextActivityIndex]
-        textNextActivity.text = nextActivity.activityName
+        val nextActivity = model.nextActivity()
+        textNextActivity.text = when (nextActivity) {
+            null -> ""
+            else -> nextActivity.activityName
+        }
+
+        textPlanFinishTime.text = model.planFinishTime().toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

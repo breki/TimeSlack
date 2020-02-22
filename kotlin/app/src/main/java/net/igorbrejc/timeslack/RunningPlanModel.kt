@@ -24,8 +24,16 @@ data class RunningPlanModel(
             .add(totalDurationInMinutes)
     }
 
-    private fun currentActivity(): SlackerActivity {
+    fun currentActivity(): SlackerActivity {
         return plan.activities[activitiesLog.currentActivityIndex()]
+    }
+
+    fun nextActivity(): SlackerActivity? {
+        val nextActivityIndex = activitiesLog.currentActivityIndex() + 1
+        return when (nextActivityIndex < plan.activities.count()) {
+            true -> plan.activities[nextActivityIndex]
+            false -> null
+        }
     }
 
     private fun remainingActivities(): List<SlackerActivity> {
