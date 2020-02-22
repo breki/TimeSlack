@@ -8,7 +8,7 @@ class `Activities log` {
     @Test
     fun `returns the plan start time as the activity start time if first activity`() {
         val planStartTime = SlackerTime.of(10, 44)
-        val log = SlackerActivitiesLog(planStartTime, emptyList());
+        val log = SlackerActivitiesLog(planStartTime, emptyList())
         assertEquals(planStartTime, log.currentActivityStartTime())
     }
 
@@ -17,7 +17,7 @@ class `Activities log` {
         val planStartTime = SlackerTime.of(10, 44)
         val activityStartTime = planStartTime.add(SlackerDuration(15))
         val log = SlackerActivitiesLog(
-            planStartTime, ImmutableList.of(activityStartTime));
+            planStartTime, ImmutableList.of(activityStartTime))
         assertEquals(activityStartTime, log.currentActivityStartTime())
     }
 }

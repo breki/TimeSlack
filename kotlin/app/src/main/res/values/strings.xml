@@ -2,14 +2,14 @@
     <string name="app_name">TimeSlack</string>
     <string name="action_settings">Settings</string>
     <string name="labelCurrentActivity">current activity</string>
-    <string name="textCurrentActivity">pakiranje za odhod</string>
-    <string name="labelCurrentActivityRemaining">remaining minutes</string>
+    <string name="textCurrentActivity">some activity</string>
+    <string name="labelCurrentActivityRemaining">remaining (minutes)</string>
     <string name="textCurrentActivityRemaining">26</string>
     <string name="labelCurrentActivityFinishTime">finish time</string>
     <string name="textCurrentActivityFinishTime">10:45</string>
     <string name="labelNextActivity">next activity</string>
     <string name="textNextActivity">next activity</string>
-    <string name="labelSlackRemaining">slack time</string>
+    <string name="labelSlackRemaining">slack (minutes)</string>
     <string name="textSlackRemaining">42</string>
     <string name="labelPlanFinishTime">plan finish time</string>
     <string name="textPlanFinishTime">11:05</string>

@@ -1,4 +1,4 @@
-# klint configuration override, see https://github.com/pinterest/ktlint#editorconfig
+# ktlint configuration override, see https://github.com/pinterest/ktlint#editorconfig
 [*.{kt,kts}]
 
 # possible values: number (e.g. 120) (package name, imports & comments are ignored), "off"
