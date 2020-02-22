@@ -38,6 +38,16 @@ data class RunningPlanModel(
         }
     }
 
+    fun currentActivityFinishTime(): SlackerTime {
+        return when {
+            currentActivityDuration()
+                .isGreaterThan(currentActivity().expectedDuration)
+            -> currentTime
+            else -> activitiesLog.currentActivityStartTime()
+                .add(currentActivity().expectedDuration)
+        }
+    }
+
     fun currentActivity(): SlackerActivity {
         return plan.activities[activitiesLog.currentActivityIndex()]
     }

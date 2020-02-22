@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
         textCurrentActivity.text = currentActivity.activityName
         textCurrentActivityRemaining.text =
             model.currentActivityRemainingDuration().toString()
+        textCurrentActivityFinishTime.text =
+            model.currentActivityFinishTime().toString()
 
         val nextActivity = model.nextActivity()
         textNextActivity.text = when (nextActivity) {
