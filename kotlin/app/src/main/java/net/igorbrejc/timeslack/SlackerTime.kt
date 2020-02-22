@@ -29,11 +29,15 @@ data class SlackerTime internal constructor (private val minutesOfDay: Int) {
         return SlackerTime(minutesOfDay + minutesToAdd)
     }
 
-    fun diffFrom(other: SlackerTime): Int {
-        return this.minutesOfDay - other.minutesOfDay
+    fun diffFrom(other: SlackerTime): SlackerDuration {
+        return SlackerDuration(this.minutesOfDay - other.minutesOfDay)
     }
 
     override fun toString(): String {
         return "%d:%02d".format(hours, minutes)
+    }
+
+    fun isAfter(other: SlackerTime): Boolean {
+        return minutesOfDay > other.minutesOfDay
     }
 }

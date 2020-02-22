@@ -1,4 +1,5 @@
 - calculate and show remaining minutes for the current activity
+- use SlackerDuration instead of ints
 - implement model calculation (based on the deadline time and current time) + tests
 - reduce the height of the activity display 
 - implement re-rendering of the activity based on the model
@@ -7,6 +8,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sat 22.02.
+- The app is now showing the slack time.
 - Moved the view update logic to its own function.
 - The app is now showing the current and next activity from the model, and also the plan finish time.
 

@@ -41,10 +41,16 @@ class RunningPlanModelBuilder {
     }
 
     fun build(): RunningPlanModel {
-        return RunningPlanModel(plan!!, log!!, currentTime!!)
+        return RunningPlanModel(plan!!, deadline!!, log!!, currentTime!!)
+    }
+
+    fun andDeadlineOf(deadline: SlackerTime): RunningPlanModelBuilder {
+        this.deadline = deadline
+        return this
     }
 
     private var plan: SlackerPlan? = null
+    private var deadline: SlackerTime? = null
     private var log: SlackerActivitiesLog? = null
     private var currentTime: SlackerTime? = null
 }

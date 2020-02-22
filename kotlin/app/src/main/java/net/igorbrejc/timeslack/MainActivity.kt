@@ -56,12 +56,13 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-//        val deadline = SlackerDeadline(SlackerTime.of(11, 0))
         val activitiesLog = SlackerActivitiesLog(
             SlackerTime.of(9, 0),
             ImmutableList.of(SlackerTime.of(9, 15)))
+        val deadline = SlackerTime.of(11, 0)
         val currentTime = SlackerTime.now()
-        val model = RunningPlanModel(plan, activitiesLog, currentTime)
+        val model = RunningPlanModel(
+            plan, deadline, activitiesLog, currentTime)
 
         val currentActivity = model.currentActivity()
         textCurrentActivity.text = currentActivity.activityName
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             else -> nextActivity.activityName
         }
 
+        textSlackRemaining.text = model.slackDuration().toString()
         textPlanFinishTime.text = model.planFinishTime().toString()
     }
 }
