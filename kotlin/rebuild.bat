@@ -1,0 +1,1 @@
+gradlew ktlintReleaseCheck testReleaseUnitTest

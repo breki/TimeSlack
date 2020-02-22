@@ -1,4 +1,3 @@
-- use SlackerDuration instead of ints
 - show the finish time of the current activity
 - reduce the height of the activity display 
 - implement re-rendering of the activity based on the model
@@ -7,6 +6,8 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sat 22.02.
+- Added `rebuild.bat` script.
+- SlackerDuration is now used instead of ints.
 - The app now shows the remaining duration for the current activity. 
 - The app is now showing the slack time.
 - Moved the view update logic to its own function.

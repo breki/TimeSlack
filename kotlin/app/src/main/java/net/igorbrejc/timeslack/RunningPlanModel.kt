@@ -25,11 +25,7 @@ data class RunningPlanModel(
                 it.expectedDuration.durationInMinutes }
 
         return activitiesLog.currentActivityStartTime()
-            .add(totalDurationInMinutes)
-    }
-
-    fun currentActivityDuration(): SlackerDuration {
-        return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
+            .add(SlackerDuration(totalDurationInMinutes))
     }
 
     fun currentActivityRemainingDuration(): SlackerDuration {
@@ -64,5 +60,9 @@ data class RunningPlanModel(
 
     private fun remainingActivities(): List<SlackerActivity> {
         return plan.activities.drop(activitiesLog.currentActivityIndex() + 1)
+    }
+
+    private fun currentActivityDuration(): SlackerDuration {
+        return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
     }
 }
