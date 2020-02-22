@@ -7,6 +7,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sat 22.02.
+- Moved the view update logic to its own function.
 - The app is now showing the current and next activity from the model, and also the plan finish time.
 
 ## Mon 17.02.
