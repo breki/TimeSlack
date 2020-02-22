@@ -12,20 +12,34 @@ data class RunningPlanModel(
         // if the current activity is running longer than the allotted time,
         // use the actual running time instead
         val actualCurrentActivityRunningTimeInMinutes =
-            currentTime.diffFrom(
-                activitiesLog.currentActivityStartTime()).durationInMinutes
+            currentActivityDuration().durationInMinutes
 
         val currentActivityRunningTimeInMinutes =
             max(
                 actualCurrentActivityRunningTimeInMinutes,
-                currentActivity().durationInMinutes)
+                currentActivity().expectedDuration.durationInMinutes)
 
         val totalDurationInMinutes =
             currentActivityRunningTimeInMinutes +
-            + remainingActivities().sumBy { it.durationInMinutes }
+            + remainingActivities().sumBy {
+                it.expectedDuration.durationInMinutes }
 
         return activitiesLog.currentActivityStartTime()
             .add(totalDurationInMinutes)
+    }
+
+    fun currentActivityDuration(): SlackerDuration {
+        return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
+    }
+
+    fun currentActivityRemainingDuration(): SlackerDuration {
+        return when {
+            currentActivityDuration()
+                .isGreaterThan(currentActivity().expectedDuration)
+                -> SlackerDuration.zero
+            else -> currentActivity().expectedDuration
+                .diff(currentActivityDuration())
+        }
     }
 
     fun currentActivity(): SlackerActivity {

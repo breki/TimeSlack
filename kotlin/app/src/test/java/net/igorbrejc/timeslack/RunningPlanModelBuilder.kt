@@ -6,13 +6,13 @@ class RunningPlanModelBuilder {
     fun givenAPlan(): RunningPlanModelBuilder {
         plan = SlackerPlan(
             ImmutableList.of(
-                SlackerActivity("prepare things", 10),
-                SlackerActivity("drive", 15),
-                SlackerActivity("prepare for hiking", 5),
-                SlackerActivity("hiking", 60),
-                SlackerActivity("unpack", 5),
-                SlackerActivity("drive", 15),
-                SlackerActivity("wash & dress", 15)
+                SlackerActivity("prepare things", SlackerDuration(10)),
+                SlackerActivity("drive", SlackerDuration(15)),
+                SlackerActivity("prepare for hiking", SlackerDuration(5)),
+                SlackerActivity("hiking", SlackerDuration(60)),
+                SlackerActivity("unpack", SlackerDuration(5)),
+                SlackerActivity("drive", SlackerDuration(15)),
+                SlackerActivity("wash & dress", SlackerDuration(15))
             ))
 
         return this

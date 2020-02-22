@@ -13,5 +13,11 @@ data class SlackerDuration(val durationInMinutes: Int) {
         val zero = SlackerDuration(0)
     }
 
+    fun isGreaterThan (other: SlackerDuration): Boolean =
+        durationInMinutes > other.durationInMinutes
+
+    fun diff(other: SlackerDuration): SlackerDuration =
+        SlackerDuration(durationInMinutes - other.durationInMinutes)
+
     override fun toString(): String = "$durationInMinutes"
 }
