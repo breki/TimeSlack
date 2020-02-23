@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateView() {
-
         val plan = SlackerPlan(
             ImmutableList.of(
                 SlackerActivity("prepare things", SlackerDuration(10)),
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             SlackerTime.of(9, 0),
             ImmutableList.of(SlackerTime.of(9, 15)))
         val deadline = SlackerTime.of(11, 0)
-        val currentTime = SlackerTime.now()
+        val currentTime = clock.now()
         val model = RunningPlanModel(
             plan, deadline, activitiesLog, currentTime)
 
@@ -80,4 +79,6 @@ class MainActivity : AppCompatActivity() {
         textSlackRemaining.text = model.slackDuration().toString()
         textPlanFinishTime.text = model.planFinishTime().toString()
     }
+
+    private val clock: Clock = SystemClock()
 }
