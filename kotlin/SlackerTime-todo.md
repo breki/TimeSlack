@@ -1,4 +1,3 @@
-- how to inject services into activities?
 - implement refreshing of the activity every minute
     - how do we refresh, using a timer?
     - the refresh rate should be configurable, so we can simulate faster time
@@ -7,6 +6,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sun 23.02.
+- Implemented TimeMachine.
 - Introduced Clock interface and SystemClock implementation.
 
 ## Sat 22.02.

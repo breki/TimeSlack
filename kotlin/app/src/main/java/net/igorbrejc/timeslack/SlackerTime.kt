@@ -19,8 +19,12 @@ data class SlackerTime internal constructor (private val minutesOfDay: Int) {
 
         fun now(): SlackerTime {
             val now = Calendar.getInstance()
-            val hours: Int = now.get(Calendar.HOUR_OF_DAY)
-            val minutes: Int = now.get(Calendar.MINUTE)
+            return fromCalendar(now)
+        }
+
+        fun fromCalendar(calendar: Calendar): SlackerTime {
+            val hours: Int = calendar.get(Calendar.HOUR_OF_DAY)
+            val minutes: Int = calendar.get(Calendar.MINUTE)
             return of(hours, minutes)
         }
     }

@@ -80,5 +80,5 @@ class MainActivity : AppCompatActivity() {
         textPlanFinishTime.text = model.planFinishTime().toString()
     }
 
-    private val clock: Clock = SystemClock()
+    private val clock: Clock = TimeMachine(5.0)
 }
