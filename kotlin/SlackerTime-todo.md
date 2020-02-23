@@ -1,11 +1,12 @@
-- implement refreshing of the activity every minute
-    - how do we refresh, using a timer?
-    - the refresh rate should be configurable, so we can simulate faster time
 - add button to finish an activity
+- what happens when we reach the last activity?
+    - can we test the activity itself?
+- how to log in Android?
 - add minimum activity duration
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sun 23.02.
+- Added a refresh timer to the plan activity.
 - Implemented TimeMachine.
 - Introduced Clock interface and SystemClock implementation.
 

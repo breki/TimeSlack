@@ -8,6 +8,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.common.collect.ImmutableList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.lang.IllegalStateException
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+        initializeTimer()
+        fetchModel()
         updateView()
     }
 
@@ -42,8 +47,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateView() {
-        val plan = SlackerPlan(
+    private fun initializeTimer() {
+        timer.schedule(timerUpdateIntervalInMs, timerUpdateIntervalInMs) {
+            runOnUiThread { updateView() }
+        }
+    }
+
+    private fun fetchModel() {
+        plan = SlackerPlan(
             ImmutableList.of(
                 SlackerActivity("prepare things", SlackerDuration(10)),
                 SlackerActivity("drive", SlackerDuration(15)),
@@ -55,13 +66,24 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        val activitiesLog = SlackerActivitiesLog(
-            SlackerTime.of(9, 0),
-            ImmutableList.of(SlackerTime.of(9, 15)))
-        val deadline = SlackerTime.of(11, 0)
+        val startTime = clock.now()
+        activitiesLog = SlackerActivitiesLog(startTime, emptyList())
+        deadline = SlackerTime.of(11, 0)
+    }
+
+    private fun updateView() {
+        if (plan == null)
+            throw IllegalStateException("Plan is not available.")
+
+        if (deadline == null)
+            throw IllegalStateException("Deadline is not available.")
+
+        if (activitiesLog == null)
+            throw IllegalStateException("Log of activities is not available.")
+
         val currentTime = clock.now()
         val model = RunningPlanModel(
-            plan, deadline, activitiesLog, currentTime)
+            plan!!, deadline!!, activitiesLog!!, currentTime)
 
         val currentActivity = model.currentActivity()
         textCurrentActivity.text = currentActivity.activityName
@@ -80,5 +102,11 @@ class MainActivity : AppCompatActivity() {
         textPlanFinishTime.text = model.planFinishTime().toString()
     }
 
-    private val clock: Clock = TimeMachine(5.0)
+    private val clock: Clock = TimeMachine(20.0)
+    private val timer: Timer = Timer()
+    private val timerUpdateIntervalInMs = 3000L
+
+    private var plan: SlackerPlan? = null
+    private var activitiesLog: SlackerActivitiesLog? = null
+    private var deadline: SlackerTime? = null
 }
