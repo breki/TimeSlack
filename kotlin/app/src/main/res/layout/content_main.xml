@@ -156,4 +156,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelPlanFinishTime" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonNextActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:clickable="true"
+        android:tint="@android:color/white"
+        android:translationY="-10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textCurrentActivityFinishTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textCurrentActivityFinishTime"
+        app:srcCompat="@drawable/ic_subdirectory_arrow_right_black_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

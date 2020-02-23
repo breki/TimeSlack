@@ -8,7 +8,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.common.collect.ImmutableList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.lang.IllegalStateException
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -26,9 +25,16 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+        buttonNextActivity.setOnClickListener { _ ->
+            val currentTime = clock.now()
+            processMessage(
+                lastModel!!,
+                NextActivityButtonClicked(currentTime))
+        }
+
         initializeTimer()
-        fetchModel()
-        updateView()
+        lastModel = fetchModel()
+        updateView(lastModel!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,12 +55,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeTimer() {
         timer.schedule(timerUpdateIntervalInMs, timerUpdateIntervalInMs) {
-            runOnUiThread { updateView() }
+            val currentTime = clock.now()
+            runOnUiThread { processMessage(
+                lastModel!!,
+                TimerUpdated(currentTime))
+            }
         }
     }
 
-    private fun fetchModel() {
-        plan = SlackerPlan(
+    private fun fetchModel(): RunningPlanModel {
+        val plan = SlackerPlan(
             ImmutableList.of(
                 SlackerActivity("prepare things", SlackerDuration(10)),
                 SlackerActivity("drive", SlackerDuration(15)),
@@ -67,24 +77,30 @@ class MainActivity : AppCompatActivity() {
         )
 
         val startTime = clock.now()
-        activitiesLog = SlackerActivitiesLog(startTime, emptyList())
-        deadline = SlackerTime.of(11, 0)
+        val activitiesLog = SlackerActivitiesLog(startTime, emptyList())
+        val deadline = SlackerTime.of(11, 0)
+        return RunningPlanModel(plan, deadline, activitiesLog, startTime)
     }
 
-    private fun updateView() {
-        if (plan == null)
-            throw IllegalStateException("Plan is not available.")
+    private fun processMessage(
+        model: RunningPlanModel,
+        message: SlackerMessage
+    ): RunningPlanModel {
+        val updatedModel =
+            when (message) {
+                is TimerUpdated -> {
+                    model.withCurrentTime(message.currentTime)
+                }
+                is NextActivityButtonClicked ->
+                    model.finishCurrentActivity(message.currentTime)
+            }
 
-        if (deadline == null)
-            throw IllegalStateException("Deadline is not available.")
+        lastModel = updatedModel
+        updateView(updatedModel)
+        return updatedModel
+    }
 
-        if (activitiesLog == null)
-            throw IllegalStateException("Log of activities is not available.")
-
-        val currentTime = clock.now()
-        val model = RunningPlanModel(
-            plan!!, deadline!!, activitiesLog!!, currentTime)
-
+    private fun updateView(model: RunningPlanModel) {
         val currentActivity = model.currentActivity()
         textCurrentActivity.text = currentActivity.activityName
         textCurrentActivityRemaining.text =
@@ -106,7 +122,5 @@ class MainActivity : AppCompatActivity() {
     private val timer: Timer = Timer()
     private val timerUpdateIntervalInMs = 3000L
 
-    private var plan: SlackerPlan? = null
-    private var activitiesLog: SlackerActivitiesLog? = null
-    private var deadline: SlackerTime? = null
+    private var lastModel: RunningPlanModel? = null
 }

@@ -1,11 +1,17 @@
-- add button to finish an activity
-- what happens when we reach the last activity?
-    - can we test the activity itself?
+- remove the existing fab
+- how to handle the state when the last activity is run?
+    - change button icon
+    - instead of "next activity", show something else
+    - when the button is pressed, do what?
+- add extra menu action for returning to previous activity 
+- can we test the Android activity itself?
 - how to log in Android?
 - add minimum activity duration
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sun 23.02.
+- Implemented a simple message-based model update function. 
+- Added "next activity" button.
 - Added a refresh timer to the plan activity.
 - Implemented TimeMachine.
 - Introduced Clock interface and SystemClock implementation.

@@ -75,4 +75,16 @@ data class RunningPlanModel(
     private fun currentActivityDuration(): SlackerDuration {
         return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
     }
+
+    fun withCurrentTime(currentTime: SlackerTime): RunningPlanModel {
+        return RunningPlanModel(plan, deadline, activitiesLog, currentTime)
+    }
+
+    fun finishCurrentActivity(currentTime: SlackerTime): RunningPlanModel {
+        return RunningPlanModel(
+            plan,
+            deadline,
+            activitiesLog.finishActivity(currentTime),
+            currentTime)
+    }
 }
