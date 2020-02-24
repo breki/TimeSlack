@@ -1,7 +1,5 @@
-- use the new model state to get the current / next activity
 - how to handle the state when the last activity is run?
     - change button icon
-    - instead of "next activity", show something else
     - when the button is pressed, do what?
 - add extra menu action for returning to previous activity 
 - can we test the Android activity itself?
@@ -10,6 +8,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Mon 24.02.
+- "next activity" display is now hidden if we're running the last activity
 - Introduced SlackerPlanStatus.
 - Removed the existing fab.
 

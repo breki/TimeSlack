@@ -3,6 +3,7 @@ package net.igorbrejc.timeslack
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.common.collect.ImmutableList
 import kotlinx.android.synthetic.main.activity_main.*
@@ -100,21 +101,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateView(model: RunningPlanModel) {
-        val currentActivity = model.currentActivity()
+        when (val planStatus = model.planStatus()) {
+            is PlanRunningWithMoreActivities -> {
+                val currentActivity = planStatus.currentActivity
+                updateCurrentActivityView(model, currentActivity)
+
+                labelNextActivity.visibility = View.VISIBLE
+                textNextActivity.visibility = View.VISIBLE
+                val nextActivity = planStatus.nextActivity
+                textNextActivity.text = nextActivity.activityName
+            }
+
+            is PlanRunningLastActivity -> {
+                val currentActivity = planStatus.currentActivity
+                updateCurrentActivityView(model, currentActivity)
+
+                labelNextActivity.visibility = View.INVISIBLE
+                textNextActivity.visibility = View.INVISIBLE
+            }
+        }
+
+        textSlackRemaining.text = model.slackDuration().toString()
+        textPlanFinishTime.text = model.planFinishTime().toString()
+    }
+
+    private fun updateCurrentActivityView(
+        model: RunningPlanModel,
+        currentActivity: SlackerActivity
+    ) {
         textCurrentActivity.text = currentActivity.activityName
         textCurrentActivityRemaining.text =
             model.currentActivityRemainingDuration().toString()
         textCurrentActivityFinishTime.text =
             model.currentActivityFinishTime().toString()
-
-        val nextActivity = model.nextActivity()
-        textNextActivity.text = when (nextActivity) {
-            null -> ""
-            else -> nextActivity.activityName
-        }
-
-        textSlackRemaining.text = model.slackDuration().toString()
-        textPlanFinishTime.text = model.planFinishTime().toString()
     }
 
     private val clock: Clock = TimeMachine(20.0)

@@ -49,24 +49,16 @@ data class RunningPlanModel(
         }
     }
 
-    fun currentActivity(): SlackerActivity {
-        return plan.activities[activitiesLog.currentActivityIndex()]
-    }
-
-    fun nextActivity(): SlackerActivity? {
-        val nextActivityIndex = activitiesLog.currentActivityIndex() + 1
-        return when (nextActivityIndex < plan.activities.count()) {
-            true -> plan.activities[nextActivityIndex]
-            false -> null
-        }
-    }
-
     fun slackDuration(): SlackerDuration {
         val finishTime = planFinishTime()
         return when (finishTime.isAfter(deadline)) {
             true -> SlackerDuration.zero
             false -> deadline.diffFrom(finishTime)
         }
+    }
+
+    private fun currentActivity(): SlackerActivity {
+        return plan.activities[activitiesLog.currentActivityIndex()]
     }
 
     private fun remainingActivities(): List<SlackerActivity> {
