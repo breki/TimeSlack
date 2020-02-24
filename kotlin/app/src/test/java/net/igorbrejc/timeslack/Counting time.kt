@@ -42,11 +42,4 @@ class `Counting time` {
             SlackerDuration(-1)
         }
     }
-
-    @Test
-    fun `SlackerDuration fails if minutes are zero`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            SlackerDuration(0)
-        }
-    }
 }

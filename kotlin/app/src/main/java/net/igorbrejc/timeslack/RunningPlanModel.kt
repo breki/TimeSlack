@@ -1,5 +1,6 @@
 package net.igorbrejc.timeslack
 
+import java.lang.IllegalStateException
 import kotlin.math.max
 
 data class RunningPlanModel(
@@ -74,6 +75,22 @@ data class RunningPlanModel(
 
     private fun currentActivityDuration(): SlackerDuration {
         return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
+    }
+
+    fun planStatus(): SlackerPlanStatus {
+        val currentActivityIndex = activitiesLog.currentActivityIndex()
+
+        return when {
+            currentActivityIndex < plan.activities.count() - 1 ->
+                PlanRunningWithMoreActivities(
+                    plan.activities[currentActivityIndex],
+                    plan.activities[currentActivityIndex + 1])
+            currentActivityIndex == plan.activities.count() - 1 ->
+                PlanRunningLastActivity(
+                    plan.activities[currentActivityIndex])
+            currentActivityIndex == plan.activities.count() -> PlanFinished
+            else -> throw IllegalStateException("BUG")
+        }
     }
 
     fun withCurrentTime(currentTime: SlackerTime): RunningPlanModel {

@@ -24,7 +24,7 @@ class RunningPlanModelBuilder {
             0 -> SlackerActivitiesLog(activityStartTime, emptyList())
             else -> SlackerActivitiesLog(
                 activityStartTime,
-                (0..activityIndex).map { activityStartTime })
+                (1..activityIndex).map { activityStartTime })
         }
 
         return this

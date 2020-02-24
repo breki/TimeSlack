@@ -168,6 +168,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textCurrentActivityFinishTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textCurrentActivityFinishTime"
-        app:srcCompat="@drawable/ic_subdirectory_arrow_right_black_24dp" />
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

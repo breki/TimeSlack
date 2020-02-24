@@ -1,3 +1,4 @@
+- use the new model state to get the current / next activity
 - how to handle the state when the last activity is run?
     - change button icon
     - instead of "next activity", show something else
@@ -9,6 +10,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Mon 24.02.
+- Introduced SlackerPlanStatus.
 - Removed the existing fab.
 
 ## Sun 23.02.
