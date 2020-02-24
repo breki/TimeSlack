@@ -1,4 +1,3 @@
-- remove the existing fab
 - how to handle the state when the last activity is run?
     - change button icon
     - instead of "next activity", show something else
@@ -8,6 +7,9 @@
 - how to log in Android?
 - add minimum activity duration
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Mon 24.02.
+- Removed the existing fab.
 
 ## Sun 23.02.
 - Implemented a simple message-based model update function. 
