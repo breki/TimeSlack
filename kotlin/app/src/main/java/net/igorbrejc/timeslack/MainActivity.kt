@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
                 val currentActivity = planStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
 
+                setNextActivityButtonImage(R.drawable.ic_check_black_24dp)
+
                 labelNextActivity.visibility = View.VISIBLE
                 textNextActivity.visibility = View.VISIBLE
                 val nextActivity = planStatus.nextActivity
@@ -115,6 +117,9 @@ class MainActivity : AppCompatActivity() {
             is PlanRunningLastActivity -> {
                 val currentActivity = planStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
+
+                setNextActivityButtonImage(
+                    R.drawable.ic_playlist_add_check_black_24dp)
 
                 labelNextActivity.visibility = View.INVISIBLE
                 textNextActivity.visibility = View.INVISIBLE
@@ -134,6 +139,10 @@ class MainActivity : AppCompatActivity() {
             model.currentActivityRemainingDuration().toString()
         textCurrentActivityFinishTime.text =
             model.currentActivityFinishTime().toString()
+    }
+
+    private fun setNextActivityButtonImage(imageResourceId: Int) {
+        buttonNextActivity.setImageResource(imageResourceId)
     }
 
     private val clock: Clock = TimeMachine(20.0)

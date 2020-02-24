@@ -1,5 +1,4 @@
 - how to handle the state when the last activity is run?
-    - change button icon
     - when the button is pressed, do what?
 - add extra menu action for returning to previous activity 
 - can we test the Android activity itself?
@@ -8,6 +7,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Mon 24.02.
+- next activity button's image is updated based on whether it's the last activity or not.
 - "next activity" display is now hidden if we're running the last activity
 - Introduced SlackerPlanStatus.
 - Removed the existing fab.
