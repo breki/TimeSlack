@@ -39,4 +39,19 @@ class `Calculates plan finish time` {
             .build()
         assertEquals(expectedFinishTime, model.planFinishTime())
     }
+
+    @Test
+    fun `when plan has already finished, returns the finish time of the last activity`() {
+        val startTime = SlackerTime.of(10, 20)
+        val finishTime = startTime.add(SlackerDuration(120))
+        val currentTime = finishTime.add(SlackerDuration(30))
+
+        val model: RunningPlanModel = RunningPlanModelBuilder()
+            .givenAPlan()
+            .andDeadlineOf(currentTime.add(SlackerDuration(15)))
+            .andCurrentActivity(7, finishTime)
+            .andCurrentTimeOf(currentTime)
+            .build()
+        assertEquals(finishTime, model.planFinishTime())
+    }
 }

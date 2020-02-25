@@ -13,4 +13,8 @@
     <string name="textSlackRemaining">42</string>
     <string name="labelPlanFinishTime">plan finish time</string>
     <string name="textPlanFinishTime">11:05</string>
+
+    <string name="buttonForwardNextActivity">NEXT ACTIVITY</string>
+    <string name="buttonForwardFinishPlan">FINISH PLAN</string>
+    <string name="buttonForwardClose">CLOSE</string>
 </resources>

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
 
-        buttonNextActivity.setOnClickListener {
+        buttonForward.setOnClickListener {
             val currentTime = clock.now()
             processMessage(
                 lastModel!!,
@@ -92,7 +92,18 @@ class MainActivity : AppCompatActivity() {
                     model.withCurrentTime(message.currentTime)
                 }
                 is NextActivityButtonClicked ->
-                    model.finishCurrentActivity(message.currentTime)
+                    when (model.planStatus()) {
+                        is PlanRunningWithMoreActivities ->
+                            model.finishCurrentActivity(message.currentTime)
+                        is PlanRunningLastActivity ->
+                            model.finishCurrentActivity(message.currentTime)
+                        is PlanFinished -> {
+                            // todo: do nothing for now, but in the future,
+                            // we should return to the initial app activity
+                            // (the plan selection)
+                            model
+                        }
+                    }
             }
 
         lastModel = updatedModel
@@ -106,7 +117,9 @@ class MainActivity : AppCompatActivity() {
                 val currentActivity = planStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
 
-                setNextActivityButtonImage(R.drawable.ic_check_black_24dp)
+                setForwardButtonContent(
+                    R.string.buttonForwardNextActivity,
+                    R.drawable.ic_check_black_24dp)
 
                 labelNextActivity.visibility = View.VISIBLE
                 textNextActivity.visibility = View.VISIBLE
@@ -118,11 +131,18 @@ class MainActivity : AppCompatActivity() {
                 val currentActivity = planStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
 
-                setNextActivityButtonImage(
+                setForwardButtonContent(
+                    R.string.buttonForwardFinishPlan,
                     R.drawable.ic_playlist_add_check_black_24dp)
 
                 labelNextActivity.visibility = View.INVISIBLE
                 textNextActivity.visibility = View.INVISIBLE
+            }
+
+            is PlanFinished -> {
+                setForwardButtonContent(
+                    R.string.buttonForwardClose,
+                    R.drawable.ic_playlist_add_check_black_24dp)
             }
         }
 
@@ -141,8 +161,13 @@ class MainActivity : AppCompatActivity() {
             model.currentActivityFinishTime().toString()
     }
 
-    private fun setNextActivityButtonImage(imageResourceId: Int) {
-        buttonNextActivity.setImageResource(imageResourceId)
+    private fun setForwardButtonContent(
+        textResourceId: Int,
+        imageResourceId: Int
+    ) {
+        buttonForward.setText(textResourceId)
+        buttonForward.setCompoundDrawablesWithIntrinsicBounds(
+            imageResourceId, 0, 0, 0)
     }
 
     private val clock: Clock = TimeMachine(20.0)

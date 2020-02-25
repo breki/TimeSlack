@@ -1,10 +1,18 @@
-- how to handle the state when the last activity is run?
-    - when the button is pressed, do what?
+- support a dynamic activity that can be split
+    - add minimum activity duration
+    - extra button indicator for splitting (/return)
+    - extra current activity indicator showing the split status
+- how to persist data (plan)?
+- rename "plan" to "flow"?
+- undo action below, as a temporary display?
 - add extra menu action for returning to previous activity 
 - can we test the Android activity itself?
 - how to log in Android?
-- add minimum activity duration
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Tue 25.02.
+- Replaced the fab with a new, bigger "forward" button at the top. 
+- Fixed planFinishTime to work in all plan states.
 
 ## Mon 24.02.
 - next activity button's image is updated based on whether it's the last activity or not.
