@@ -1,14 +1,17 @@
+- simplify ActivitiesLog?
 - support a dynamic activity that can be split
     - add minimum activity duration
     - extra button indicator for splitting (/return)
     - extra current activity indicator showing the split status
 - how to persist data (plan)?
-- rename "plan" to "flow"?
 - undo action below, as a temporary display?
 - add extra menu action for returning to previous activity 
 - can we test the Android activity itself?
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Wed 26.02.
+- Renamed "plan" to "flow", also simplified some other namings.
 
 ## Tue 25.02.
 - Replaced the fab with a new, bigger "forward" button at the top. 

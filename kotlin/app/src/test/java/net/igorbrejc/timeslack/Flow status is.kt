@@ -3,23 +3,23 @@ package net.igorbrejc.timeslack
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class `Plan status is` {
+class `Flow status is` {
     @Test
     fun `RunningWithMoreActivities when there are still some remaining activities`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(2, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
-            PlanRunningWithMoreActivities(
-                SlackerActivity("prepare for hiking", SlackerDuration(5)),
-                SlackerActivity("hiking", SlackerDuration(60))),
-            model.planStatus())
+            FlowRunningWithMoreActivities(
+                FlowActivity("prepare for hiking", SlackerDuration(5)),
+                FlowActivity("hiking", SlackerDuration(60))),
+            model.flowStatus())
     }
 
     @Test
@@ -27,16 +27,16 @@ class `Plan status is` {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(6, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
-            PlanRunningLastActivity(
-                SlackerActivity("wash & dress", SlackerDuration(15))),
-            model.planStatus())
+            FlowRunningLastActivity(
+                FlowActivity("wash & dress", SlackerDuration(15))),
+            model.flowStatus())
     }
 
     @Test
@@ -44,12 +44,12 @@ class `Plan status is` {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(7, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
-        Assertions.assertEquals(PlanFinished, model.planStatus())
+        Assertions.assertEquals(FlowFinished, model.flowStatus())
     }
 }

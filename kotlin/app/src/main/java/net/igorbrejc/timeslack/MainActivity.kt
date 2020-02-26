@@ -63,44 +63,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchModel(): RunningPlanModel {
-        val plan = SlackerPlan(
+    private fun fetchModel(): RunningFlowModel {
+        val flow = Flow(
             ImmutableList.of(
-                SlackerActivity("prepare things", SlackerDuration(10)),
-                SlackerActivity("drive", SlackerDuration(15)),
-                SlackerActivity("prepare for hiking", SlackerDuration(5)),
-                SlackerActivity("hiking", SlackerDuration(60)),
-                SlackerActivity("unpack", SlackerDuration(5)),
-                SlackerActivity("drive", SlackerDuration(15)),
-                SlackerActivity("wash & dress", SlackerDuration(15))
+                FlowActivity("prepare things", SlackerDuration(10)),
+                FlowActivity("drive", SlackerDuration(15)),
+                FlowActivity("prepare for hiking", SlackerDuration(5)),
+                FlowActivity("hiking", SlackerDuration(60)),
+                FlowActivity("unpack", SlackerDuration(5)),
+                FlowActivity("drive", SlackerDuration(15)),
+                FlowActivity("wash & dress", SlackerDuration(15))
             )
         )
 
         val startTime = clock.now()
-        val activitiesLog = SlackerActivitiesLog(startTime, emptyList())
+        val activitiesLog = ActivitiesLog(startTime, emptyList())
         val deadline = SlackerTime.of(11, 0)
-        return RunningPlanModel(plan, deadline, activitiesLog, startTime)
+        return RunningFlowModel(flow, deadline, activitiesLog, startTime)
     }
 
     private fun processMessage(
-        model: RunningPlanModel,
-        message: SlackerMessage
-    ): RunningPlanModel {
+        model: RunningFlowModel,
+        message: UIMessage
+    ): RunningFlowModel {
         val updatedModel =
             when (message) {
                 is TimerUpdated -> {
                     model.withCurrentTime(message.currentTime)
                 }
                 is NextActivityButtonClicked ->
-                    when (model.planStatus()) {
-                        is PlanRunningWithMoreActivities ->
+                    when (model.flowStatus()) {
+                        is FlowRunningWithMoreActivities ->
                             model.finishCurrentActivity(message.currentTime)
-                        is PlanRunningLastActivity ->
+                        is FlowRunningLastActivity ->
                             model.finishCurrentActivity(message.currentTime)
-                        is PlanFinished -> {
+                        is FlowFinished -> {
                             // todo: do nothing for now, but in the future,
                             // we should return to the initial app activity
-                            // (the plan selection)
+                            // (the flow selection)
                             model
                         }
                     }
@@ -111,10 +111,10 @@ class MainActivity : AppCompatActivity() {
         return updatedModel
     }
 
-    private fun updateView(model: RunningPlanModel) {
-        when (val planStatus = model.planStatus()) {
-            is PlanRunningWithMoreActivities -> {
-                val currentActivity = planStatus.currentActivity
+    private fun updateView(model: RunningFlowModel) {
+        when (val flowStatus = model.flowStatus()) {
+            is FlowRunningWithMoreActivities -> {
+                val currentActivity = flowStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
 
                 setForwardButtonContent(
@@ -123,23 +123,23 @@ class MainActivity : AppCompatActivity() {
 
                 labelNextActivity.visibility = View.VISIBLE
                 textNextActivity.visibility = View.VISIBLE
-                val nextActivity = planStatus.nextActivity
+                val nextActivity = flowStatus.nextActivity
                 textNextActivity.text = nextActivity.activityName
             }
 
-            is PlanRunningLastActivity -> {
-                val currentActivity = planStatus.currentActivity
+            is FlowRunningLastActivity -> {
+                val currentActivity = flowStatus.currentActivity
                 updateCurrentActivityView(model, currentActivity)
 
                 setForwardButtonContent(
-                    R.string.buttonForwardFinishPlan,
+                    R.string.buttonForwardFinishFlow,
                     R.drawable.ic_playlist_add_check_black_24dp)
 
                 labelNextActivity.visibility = View.INVISIBLE
                 textNextActivity.visibility = View.INVISIBLE
             }
 
-            is PlanFinished -> {
+            is FlowFinished -> {
                 setForwardButtonContent(
                     R.string.buttonForwardClose,
                     R.drawable.ic_playlist_add_check_black_24dp)
@@ -147,12 +147,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         textSlackRemaining.text = model.slackDuration().toString()
-        textPlanFinishTime.text = model.planFinishTime().toString()
+        textFlowFinishTime.text = model.flowFinishTime().toString()
     }
 
     private fun updateCurrentActivityView(
-        model: RunningPlanModel,
-        currentActivity: SlackerActivity
+        model: RunningFlowModel,
+        currentActivity: FlowActivity
     ) {
         textCurrentActivity.text = currentActivity.activityName
         textCurrentActivityRemaining.text =
@@ -174,5 +174,5 @@ class MainActivity : AppCompatActivity() {
     private val timer: Timer = Timer()
     private val timerUpdateIntervalInMs = 3000L
 
-    private var lastModel: RunningPlanModel? = null
+    private var lastModel: RunningFlowModel? = null
 }

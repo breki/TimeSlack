@@ -9,8 +9,8 @@ class `Calculates activity remaining duration` {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(30))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
@@ -24,8 +24,8 @@ class `Calculates activity remaining duration` {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(5))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)

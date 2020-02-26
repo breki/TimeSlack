@@ -157,24 +157,24 @@
         app:layout_constraintTop_toBottomOf="@+id/labelSlackRemaining" />
 
     <TextView
-        android:id="@+id/labelPlanFinishTime"
+        android:id="@+id/labelFlowFinishTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/labelPlanFinishTime"
+        android:text="@string/labelFlowFinishTime"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textSlackRemaining" />
 
     <TextView
-        android:id="@+id/textPlanFinishTime"
+        android:id="@+id/textFlowFinishTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textPlanFinishTime"
+        android:text="@string/textFlowFinishTime"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:translationY="-10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelPlanFinishTime" />
+        app:layout_constraintTop_toBottomOf="@+id/labelFlowFinishTime" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

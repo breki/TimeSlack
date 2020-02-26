@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test
 
 class `Calculates slack duration` {
     @Test
-    fun `to zero if plan finish time is beyond deadline`() {
+    fun `to zero if flow finish time is beyond deadline`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
@@ -19,12 +19,12 @@ class `Calculates slack duration` {
     }
 
     @Test
-    fun `as greater than zero if plan finish time is before deadline`() {
+    fun `as greater than zero if flow finish time is before deadline`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
-        val model: RunningPlanModel = RunningPlanModelBuilder()
-            .givenAPlan()
+        val model: RunningFlowModel = RunningFlowModelBuilder()
+            .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(200)))
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)

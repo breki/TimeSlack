@@ -3,17 +3,17 @@ package net.igorbrejc.timeslack
 import java.lang.IllegalStateException
 import kotlin.math.max
 
-data class RunningPlanModel(
-    val plan: SlackerPlan,
+data class RunningFlowModel(
+    val flow: Flow,
     val deadline: SlackerTime,
-    val activitiesLog: SlackerActivitiesLog,
+    val activitiesLog: ActivitiesLog,
     val currentTime: SlackerTime
 ) {
-    fun planFinishTime(): SlackerTime {
-        return when (planStatus()) {
-            is PlanRunningWithMoreActivities -> calculatedPlanFinishTime()
-            is PlanRunningLastActivity -> calculatedPlanFinishTime()
-            is PlanFinished -> activitiesLog.currentActivityStartTime()
+    fun flowFinishTime(): SlackerTime {
+        return when (flowStatus()) {
+            is FlowRunningWithMoreActivities -> calculatedFlowFinishTime()
+            is FlowRunningLastActivity -> calculatedFlowFinishTime()
+            is FlowFinished -> activitiesLog.currentActivityStartTime()
         }
     }
 
@@ -38,14 +38,14 @@ data class RunningPlanModel(
     }
 
     fun slackDuration(): SlackerDuration {
-        val finishTime = planFinishTime()
+        val finishTime = flowFinishTime()
         return when (finishTime.isAfter(deadline)) {
             true -> SlackerDuration.zero
             false -> deadline.diffFrom(finishTime)
         }
     }
 
-    private fun calculatedPlanFinishTime(): SlackerTime {
+    private fun calculatedFlowFinishTime(): SlackerTime {
         // if the current activity is running longer than the allotted time,
         // use the actual running time instead
         val actualCurrentActivityRunningTimeInMinutes =
@@ -65,41 +65,41 @@ data class RunningPlanModel(
             .add(SlackerDuration(totalDurationInMinutes))
     }
 
-    private fun currentActivity(): SlackerActivity {
-        return plan.activities[activitiesLog.currentActivityIndex()]
+    private fun currentActivity(): FlowActivity {
+        return flow.activities[activitiesLog.currentActivityIndex()]
     }
 
-    private fun remainingActivities(): List<SlackerActivity> {
-        return plan.activities.drop(activitiesLog.currentActivityIndex() + 1)
+    private fun remainingActivities(): List<FlowActivity> {
+        return flow.activities.drop(activitiesLog.currentActivityIndex() + 1)
     }
 
     private fun currentActivityDuration(): SlackerDuration {
         return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
     }
 
-    fun planStatus(): SlackerPlanStatus {
+    fun flowStatus(): FlowStatus {
         val currentActivityIndex = activitiesLog.currentActivityIndex()
 
         return when {
-            currentActivityIndex < plan.activities.count() - 1 ->
-                PlanRunningWithMoreActivities(
-                    plan.activities[currentActivityIndex],
-                    plan.activities[currentActivityIndex + 1])
-            currentActivityIndex == plan.activities.count() - 1 ->
-                PlanRunningLastActivity(
-                    plan.activities[currentActivityIndex])
-            currentActivityIndex == plan.activities.count() -> PlanFinished
+            currentActivityIndex < flow.activities.count() - 1 ->
+                FlowRunningWithMoreActivities(
+                    flow.activities[currentActivityIndex],
+                    flow.activities[currentActivityIndex + 1])
+            currentActivityIndex == flow.activities.count() - 1 ->
+                FlowRunningLastActivity(
+                    flow.activities[currentActivityIndex])
+            currentActivityIndex == flow.activities.count() -> FlowFinished
             else -> throw IllegalStateException("BUG")
         }
     }
 
-    fun withCurrentTime(currentTime: SlackerTime): RunningPlanModel {
-        return RunningPlanModel(plan, deadline, activitiesLog, currentTime)
+    fun withCurrentTime(currentTime: SlackerTime): RunningFlowModel {
+        return RunningFlowModel(flow, deadline, activitiesLog, currentTime)
     }
 
-    fun finishCurrentActivity(currentTime: SlackerTime): RunningPlanModel {
-        return RunningPlanModel(
-            plan,
+    fun finishCurrentActivity(currentTime: SlackerTime): RunningFlowModel {
+        return RunningFlowModel(
+            flow,
             deadline,
             activitiesLog.finishActivity(currentTime),
             currentTime)

@@ -1,6 +1,6 @@
 package net.igorbrejc.timeslack
 
-data class SlackerActivity(
+data class FlowActivity(
     val activityName: String,
     val expectedDuration: SlackerDuration
 )
