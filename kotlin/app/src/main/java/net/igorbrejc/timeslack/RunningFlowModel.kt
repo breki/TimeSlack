@@ -18,22 +18,28 @@ data class RunningFlowModel(
     }
 
     fun currentActivityRemainingDuration(): SlackerDuration {
-        return when {
-            currentActivityDuration()
-                .isGreaterThan(currentActivity().expectedDuration)
-                -> SlackerDuration.zero
-            else -> currentActivity().expectedDuration
-                .diff(currentActivityDuration())
+        return when (val activity = currentActivity()) {
+            is FixedActivity ->
+                when {
+                    currentActivityDuration()
+                        .isGreaterThan(activity.expectedDuration)
+                    -> SlackerDuration.zero
+                    else -> activity.expectedDuration
+                        .diff(currentActivityDuration())
+                }
         }
     }
 
     fun currentActivityFinishTime(): SlackerTime {
-        return when {
-            currentActivityDuration()
-                .isGreaterThan(currentActivity().expectedDuration)
-            -> currentTime
-            else -> activitiesLog.currentActivityStartTime()
-                .add(currentActivity().expectedDuration)
+        return when (val activity = currentActivity()) {
+            is FixedActivity ->
+                when {
+                    currentActivityDuration()
+                        .isGreaterThan(activity.expectedDuration)
+                    -> currentTime
+                    else -> activitiesLog.currentActivityStartTime()
+                        .add(activity.expectedDuration)
+                }
         }
     }
 
@@ -46,23 +52,27 @@ data class RunningFlowModel(
     }
 
     private fun calculatedFlowFinishTime(): SlackerTime {
-        // if the current activity is running longer than the allotted time,
-        // use the actual running time instead
-        val actualCurrentActivityRunningTimeInMinutes =
-            currentActivityDuration().durationInMinutes
+        return when (val activity = currentActivity()) {
+            is FixedActivity -> {
+                // if the current activity is running longer than the allotted time,
+                // use the actual running time instead
+                val actualCurrentActivityRunningTimeInMinutes =
+                    currentActivityDuration().durationInMinutes
 
-        val currentActivityRunningTimeInMinutes =
-            max(
-                actualCurrentActivityRunningTimeInMinutes,
-                currentActivity().expectedDuration.durationInMinutes)
+                val currentActivityRunningTimeInMinutes: Int =
+                    max(
+                        actualCurrentActivityRunningTimeInMinutes,
+                        activity.expectedDuration.durationInMinutes
+                    )
 
-        val totalDurationInMinutes =
-            currentActivityRunningTimeInMinutes +
-                    + remainingActivities().sumBy {
-                        it.expectedDuration.durationInMinutes }
+                val totalDurationInMinutes =
+                    currentActivityRunningTimeInMinutes +
+                    remainingActivitiesExpectedDuration().durationInMinutes
 
-        return activitiesLog.currentActivityStartTime()
-            .add(SlackerDuration(totalDurationInMinutes))
+                activitiesLog.currentActivityStartTime()
+                    .add(SlackerDuration(totalDurationInMinutes))
+            }
+        }
     }
 
     private fun currentActivity(): FlowActivity {
@@ -71,6 +81,17 @@ data class RunningFlowModel(
 
     private fun remainingActivities(): List<FlowActivity> {
         return flow.activities.drop(activitiesLog.currentActivityIndex() + 1)
+    }
+
+    private fun remainingActivitiesExpectedDuration(): SlackerDuration {
+        val expectedDurations =
+            remainingActivities().map { activity ->
+                when (activity) {
+                    is FixedActivity -> activity.expectedDuration
+                }
+            }
+
+        return SlackerDuration.sumOf(expectedDurations)
     }
 
     private fun currentActivityDuration(): SlackerDuration {

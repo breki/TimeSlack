@@ -1,6 +1,8 @@
 package net.igorbrejc.timeslack
 
-data class FlowActivity(
-    val activityName: String,
+sealed class FlowActivity(open val activityName: String)
+
+data class FixedActivity(
+    override val activityName: String,
     val expectedDuration: SlackerDuration
-)
+) : FlowActivity(activityName)

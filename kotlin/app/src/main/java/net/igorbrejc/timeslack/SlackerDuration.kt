@@ -10,6 +10,10 @@ data class SlackerDuration(val durationInMinutes: Int) {
     }
 
     companion object {
+        fun sumOf(durations: List<SlackerDuration>): SlackerDuration {
+            return SlackerDuration(durations.sumBy { x -> x.durationInMinutes })
+        }
+
         val zero = SlackerDuration(0)
     }
 

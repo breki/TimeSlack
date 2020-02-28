@@ -66,13 +66,13 @@ class MainActivity : AppCompatActivity() {
     private fun fetchModel(): RunningFlowModel {
         val flow = Flow(
             ImmutableList.of(
-                FlowActivity("prepare things", SlackerDuration(10)),
-                FlowActivity("drive", SlackerDuration(15)),
-                FlowActivity("prepare for hiking", SlackerDuration(5)),
-                FlowActivity("hiking", SlackerDuration(60)),
-                FlowActivity("unpack", SlackerDuration(5)),
-                FlowActivity("drive", SlackerDuration(15)),
-                FlowActivity("wash & dress", SlackerDuration(15))
+                FixedActivity("prepare things", SlackerDuration(10)),
+                FixedActivity("drive", SlackerDuration(15)),
+                FixedActivity("prepare for hiking", SlackerDuration(5)),
+                FixedActivity("hiking", SlackerDuration(60)),
+                FixedActivity("unpack", SlackerDuration(5)),
+                FixedActivity("drive", SlackerDuration(15)),
+                FixedActivity("wash & dress", SlackerDuration(15))
             )
         )
 

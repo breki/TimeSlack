@@ -1,7 +1,8 @@
 - support a dynamic activity that can be split
-    - add minimum activity duration
-    - extra button indicator for splitting (/return)
-    - extra current activity indicator showing the split status
+    - DynamicActivity
+        - add minimum activity duration
+        - extra button indicator for splitting (/return)
+        - extra current activity indicator showing the split status
 - how to persist data (plan)?
 - undo action below, as a temporary display?
 - add extra menu action for returning to previous activity 
@@ -10,6 +11,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Fri 28.02.
+- FlowActivity is now a sealed class, FixedActivity has replaced its function.
 - Hopefully fixed the "different JREs" issue by setting AS to use the OpenJDK.
 - Upgraded gradle wrapper to the latest version.
 - Upgraded to com.android.tools.build:gradle:3.6.0

@@ -17,8 +17,8 @@ class `Flow status is` {
             .build()
         Assertions.assertEquals(
             FlowRunningWithMoreActivities(
-                FlowActivity("prepare for hiking", SlackerDuration(5)),
-                FlowActivity("hiking", SlackerDuration(60))),
+                FixedActivity("prepare for hiking", SlackerDuration(5)),
+                FixedActivity("hiking", SlackerDuration(60))),
             model.flowStatus())
     }
 
@@ -35,7 +35,7 @@ class `Flow status is` {
             .build()
         Assertions.assertEquals(
             FlowRunningLastActivity(
-                FlowActivity("wash & dress", SlackerDuration(15))),
+                FixedActivity("wash & dress", SlackerDuration(15))),
             model.flowStatus())
     }
 
