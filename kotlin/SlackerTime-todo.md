@@ -11,7 +11,9 @@
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
-## Fri 27.02.
+## Fri 28.02.
+- Upgraded gradle wrapper to the latest version.
+- Upgraded to com.android.tools.build:gradle:3.6.0
 - Simplified ActivityLog.
 - Fixed the "different JREs" warning by adding an explicit JAVA_HOME path in gradlew.bat.
 
