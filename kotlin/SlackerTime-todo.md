@@ -1,4 +1,5 @@
 - gradle no longer runs unit tests
+    - update blog entry
 - simplify ActivitiesLog?
     - also write tests
 - support a dynamic activity that can be split
@@ -11,6 +12,9 @@
 - can we test the Android activity itself?
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Fri 27.02.
+- Fixed the "different JREs" warning by adding an explicit JAVA_HOME path in gradlew.bat.
 
 ## Wed 26.02.
 - Renamed "plan" to "flow", also simplified some other namings.
