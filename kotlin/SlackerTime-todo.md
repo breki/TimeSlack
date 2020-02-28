@@ -1,5 +1,3 @@
-- Warning:(14, 20) A newer version of com.android.tools.build:gradle than 3.5.3 is available: 3.6.0
-- gradle still uses the diff JRE
 - support a dynamic activity that can be split
     - add minimum activity duration
     - extra button indicator for splitting (/return)
@@ -12,6 +10,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Fri 28.02.
+- Hopefully fixed the "different JREs" issue by setting AS to use the OpenJDK.
 - Upgraded gradle wrapper to the latest version.
 - Upgraded to com.android.tools.build:gradle:3.6.0
 - Simplified ActivityLog.
