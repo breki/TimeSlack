@@ -34,7 +34,6 @@ dependencies {
     implementation(
         fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk7", version = kotlinVersion))
-    // implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.core:core-ktx:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
@@ -48,4 +47,15 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+}
+
+// tells all test tasks to use Gradle's built-in JUnit 5 support
+tasks.withType<Test> {
+    useJUnitPlatform()
+
+    // tells the test runner to display results of all tests,
+    // not just failed ones
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }

@@ -20,13 +20,7 @@ class RunningFlowModelBuilder {
 
     fun andCurrentActivity(activityIndex: Int, activityStartTime: SlackerTime):
             RunningFlowModelBuilder {
-        log = when (activityIndex) {
-            0 -> ActivitiesLog(activityStartTime, emptyList())
-            else -> ActivitiesLog(
-                activityStartTime,
-                (1..activityIndex).map { activityStartTime })
-        }
-
+        log = ActivitiesLog((1..activityIndex).map { activityStartTime })
         return this
     }
 

@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.objects.NativeRegExp.test
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 plugins {

@@ -2,24 +2,16 @@ package net.igorbrejc.timeslack
 
 import com.google.common.collect.ImmutableList
 
-data class ActivitiesLog(
-    val flowStartTime: SlackerTime,
-    val activitiesFinishTimes: List<SlackerTime>
-) {
-    fun currentActivityIndex(): Int { return activitiesFinishTimes.count() }
+data class ActivitiesLog(val timePoints: List<SlackerTime>) {
+    fun currentActivityIndex(): Int { return timePoints.count() - 1 }
 
-    fun currentActivityStartTime(): SlackerTime {
-        return when (currentActivityIndex()) {
-            0 -> flowStartTime
-            else -> activitiesFinishTimes[currentActivityIndex() - 1]
-        }
-    }
+    fun currentActivityStartTime(): SlackerTime =
+        timePoints[currentActivityIndex()]
 
     fun finishActivity(currentTime: SlackerTime): ActivitiesLog {
         return ActivitiesLog(
-            flowStartTime,
             ImmutableList.builder<SlackerTime>()
-                .addAll(activitiesFinishTimes)
+                .addAll(timePoints)
                 .add(currentTime)
                 .build())
     }

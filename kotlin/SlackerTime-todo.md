@@ -1,4 +1,6 @@
+- gradle no longer runs unit tests
 - simplify ActivitiesLog?
+    - also write tests
 - support a dynamic activity that can be split
     - add minimum activity duration
     - extra button indicator for splitting (/return)
