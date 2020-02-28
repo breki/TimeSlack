@@ -8,16 +8,29 @@ import java.lang.IllegalArgumentException
 
 class `Activities log` {
     @Test
-    fun `requires at least one time instance`() {
+    fun `requires at least one time point`() {
         assertThrows(IllegalArgumentException::class.java) {
-            ActivitiesLog(emptyList())
+            ActivitiesLog(10, emptyList())
+        }
+    }
+
+    @Test
+    fun `cannot specify more time points than there are activities (plus 1)`() {
+        assertThrows(IllegalArgumentException::class.java) {
+            ActivitiesLog(
+                2,
+                ImmutableList.of(
+                    SlackerTime.of(10, 20),
+                    SlackerTime.of(10, 20),
+                    SlackerTime.of(10, 20),
+                    SlackerTime.of(10, 20)))
         }
     }
 
     @Test
     fun `returns the flow start time as the activity start time if first activity`() {
         val flowStartTime = SlackerTime.of(10, 44)
-        val log = ActivitiesLog(ImmutableList.of(flowStartTime))
+        val log = ActivitiesLog(10, ImmutableList.of(flowStartTime))
         assertEquals(flowStartTime, log.currentActivityStartTime())
     }
 
@@ -26,6 +39,7 @@ class `Activities log` {
         val flowStartTime = SlackerTime.of(10, 44)
         val activityStartTime = flowStartTime.add(SlackerDuration(15))
         val log = ActivitiesLog(
+            10,
             ImmutableList.of(flowStartTime, activityStartTime))
         assertEquals(activityStartTime, log.currentActivityStartTime())
     }

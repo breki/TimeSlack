@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val startTime = clock.now()
-        val activitiesLog = ActivitiesLog(ImmutableList.of(startTime))
+        val activitiesLog = flow.createActivitiesLog(startTime)
         val deadline = SlackerTime.of(11, 0)
         return RunningFlowModel(flow, deadline, activitiesLog, startTime)
     }

@@ -17,11 +17,6 @@ set APP_HOME=%DIRNAME%
 set DEFAULT_JVM_OPTS=
 
 @rem Find java.exe
-@rem To prevent Android Studio's warning about different JREs,
-@rem I added the explicit path to Android Studio's JRE,
-@rem (see https://stackoverflow.com/a/60135304/55408). I'm not sure this is
-@rem the best approach, but I will leave it here for now.
-set JAVA_HOME="C:/Program Files/Android/Android Studio/jre"
 if defined JAVA_HOME goto findJavaFromJavaHome
 
 set JAVA_EXE=java.exe

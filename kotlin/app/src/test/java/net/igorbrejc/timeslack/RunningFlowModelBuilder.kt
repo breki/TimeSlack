@@ -20,12 +20,9 @@ class RunningFlowModelBuilder {
 
     fun andCurrentActivity(activityIndex: Int, activityStartTime: SlackerTime):
             RunningFlowModelBuilder {
-        log = ActivitiesLog((1..activityIndex).map { activityStartTime })
-        return this
-    }
-
-    fun andCurrentTimeOf(hours: Int, minutes: Int): RunningFlowModelBuilder {
-        currentTime = SlackerTime.of(hours, minutes)
+        log = ActivitiesLog(
+            flow!!.activities.count(),
+            (0..activityIndex).map { activityStartTime })
         return this
     }
 

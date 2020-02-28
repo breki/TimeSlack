@@ -1,7 +1,5 @@
-- gradle no longer runs unit tests
-    - update blog entry
-- simplify ActivitiesLog?
-    - also write tests
+- Warning:(14, 20) A newer version of com.android.tools.build:gradle than 3.5.3 is available: 3.6.0
+- gradle still uses the diff JRE
 - support a dynamic activity that can be split
     - add minimum activity duration
     - extra button indicator for splitting (/return)
@@ -14,6 +12,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Fri 27.02.
+- Simplified ActivityLog.
 - Fixed the "different JREs" warning by adding an explicit JAVA_HOME path in gradlew.bat.
 
 ## Wed 26.02.
