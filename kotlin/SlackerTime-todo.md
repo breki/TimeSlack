@@ -1,8 +1,4 @@
 - extract a model for presenting the current activity information
-    - introduce the model into the code
-    - merge test fixtures as needed
-    - render the view using the new model
-    - remove old (obsolete) functions on the main model
     - introduce the model implementation for dynamic activity
 
 - how to present a dynamic activity
@@ -29,6 +25,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Sun 1.3.
+- Merged all tests with fixed current activity.
 - Replaced individual currentActivity() functions in the RunningFlowModel with the new CurrentActivityInfo.
 - Switched to using Android JRE both in AS and gradle.
 - Introduced DynamicActivity.

@@ -42,8 +42,9 @@ dependencies {
     implementation(
         group = "com.google.guava", name = "guava", version = "28.2-android")
 
-    testCompile(group = "com.natpryce", name = "hamkrest", version = "1.7.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation(
+        group = "com.natpryce", name = "hamkrest", version = "1.7.0.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
