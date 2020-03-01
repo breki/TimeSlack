@@ -1,3 +1,5 @@
+- we will need to model the ActivityLog to support dynamic activities
+
 - extract a model for presenting the current activity information
     - introduce the model implementation for dynamic activity
 
