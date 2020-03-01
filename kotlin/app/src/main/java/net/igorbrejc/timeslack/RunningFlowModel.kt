@@ -17,29 +17,32 @@ data class RunningFlowModel(
         }
     }
 
-    fun currentActivityRemainingDuration(): SlackerDuration {
+    fun currentActivityInfo(): CurrentActivityInfo {
         return when (val activity = currentActivity()) {
-            is FixedActivity ->
-                when {
-                    currentActivityDuration()
-                        .isGreaterThan(activity.expectedDuration)
-                    -> SlackerDuration.zero
-                    else -> activity.expectedDuration
-                        .diff(currentActivityDuration())
-                }
-        }
-    }
-
-    fun currentActivityFinishTime(): SlackerTime {
-        return when (val activity = currentActivity()) {
-            is FixedActivity ->
-                when {
+            is FixedActivity -> {
+                val plannedFinishTime = when {
                     currentActivityDuration()
                         .isGreaterThan(activity.expectedDuration)
                     -> currentTime
                     else -> activitiesLog.currentActivityStartTime()
                         .add(activity.expectedDuration)
                 }
+
+                val remainingDuration = when {
+                    currentActivityDuration()
+                        .isGreaterThan(activity.expectedDuration)
+                    -> SlackerDuration.zero
+                    else -> activity.expectedDuration
+                        .diff(currentActivityDuration())
+                }
+
+                CurrentFixedActivityInfo(
+                    activity.activityName,
+                    remainingDuration,
+                    plannedFinishTime)
+            }
+
+            is DynamicActivity -> TODO()
         }
     }
 
@@ -72,6 +75,8 @@ data class RunningFlowModel(
                 activitiesLog.currentActivityStartTime()
                     .add(SlackerDuration(totalDurationInMinutes))
             }
+
+            is DynamicActivity -> TODO()
         }
     }
 
@@ -88,6 +93,7 @@ data class RunningFlowModel(
             remainingActivities().map { activity ->
                 when (activity) {
                     is FixedActivity -> activity.expectedDuration
+                    is DynamicActivity -> TODO()
                 }
             }
 

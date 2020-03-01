@@ -1,6 +1,24 @@
+- extract a model for presenting the current activity information
+    - introduce the model into the code
+    - merge test fixtures as needed
+    - render the view using the new model
+    - remove old (obsolete) functions on the main model
+    - introduce the model implementation for dynamic activity
+
+- how to present a dynamic activity
+    - 1. stage: show time until the half-point
+        - calculate the max duration of the activity
+        - half-point is half between the start of the activity and the max duration
+    - 2. stage: calculate the end time based on the actual half-point duration
+
 - support a dynamic activity that can be split
     - DynamicActivity
-        - add minimum activity duration
+        - introduce it in the logic and write tests
+            currentActivityRemainingDuration
+                - 
+            currentActivityFinishTime
+            calculatedFlowFinishTime
+            remainingActivitiesExpectedDuration
         - extra button indicator for splitting (/return)
         - extra current activity indicator showing the split status
 - how to persist data (plan)?
@@ -9,6 +27,11 @@
 - can we test the Android activity itself?
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Sun 1.3.
+- Replaced individual currentActivity() functions in the RunningFlowModel with the new CurrentActivityInfo.
+- Switched to using Android JRE both in AS and gradle.
+- Introduced DynamicActivity.
 
 ## Fri 28.02.
 - FlowActivity is now a sealed class, FixedActivity has replaced its function.

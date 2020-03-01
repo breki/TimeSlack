@@ -1,11 +1,11 @@
 package net.igorbrejc.timeslack
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class `Calculates activity remaining duration` {
     @Test
-    fun `to zero if the actual activity duration is longer than allotted one`() {
+    fun `to zero if the fixed activity duration is longer than allotted one`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(30))
 
@@ -15,12 +15,17 @@ class `Calculates activity remaining duration` {
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
-        Assertions.assertEquals(
-            SlackerDuration.zero, model.currentActivityRemainingDuration())
+
+        when (val activityInfo = model.currentActivityInfo()) {
+            is CurrentFixedActivityInfo -> {
+                assertEquals(
+                    SlackerDuration.zero, activityInfo.remainingDuration)
+            }
+        }
     }
 
     @Test
-    fun `above zero if the actual activity duration is shorter than allotted one`() {
+    fun `above zero if the fixed activity duration is shorter than allotted one`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(5))
 
@@ -30,7 +35,13 @@ class `Calculates activity remaining duration` {
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
-        Assertions.assertEquals(
-            SlackerDuration(5), model.currentActivityRemainingDuration())
+
+        //        assertThat(activityInfo, isA<CurrentFixedActivityInfo>())
+
+        when (val activityInfo = model.currentActivityInfo()) {
+            is CurrentFixedActivityInfo -> {
+                assertEquals(SlackerDuration(5), activityInfo.remainingDuration)
+            }
+        }
     }
 }

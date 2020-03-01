@@ -15,9 +15,14 @@ class `Calculates activity finish time` {
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
-        Assertions.assertEquals(
-            startTime.add(SlackerDuration(10)),
-            model.currentActivityFinishTime())
+
+        when (val activityInfo = model.currentActivityInfo()) {
+            is CurrentFixedActivityInfo -> {
+                Assertions.assertEquals(
+                    startTime.add(SlackerDuration(10)),
+                    activityInfo.plannedFinishTime)
+            }
+        }
     }
 
     @Test
@@ -31,7 +36,12 @@ class `Calculates activity finish time` {
             .andCurrentActivity(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
-        Assertions.assertEquals(
-            currentTime, model.currentActivityFinishTime())
+
+        when (val activityInfo = model.currentActivityInfo()) {
+            is CurrentFixedActivityInfo -> {
+                Assertions.assertEquals(
+                    currentTime, activityInfo.plannedFinishTime)
+            }
+        }
     }
 }

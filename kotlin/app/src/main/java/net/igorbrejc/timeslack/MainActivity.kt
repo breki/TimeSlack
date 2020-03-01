@@ -114,8 +114,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateView(model: RunningFlowModel) {
         when (val flowStatus = model.flowStatus()) {
             is FlowRunningWithMoreActivities -> {
-                val currentActivity = flowStatus.currentActivity
-                updateCurrentActivityView(model, currentActivity)
+                updateCurrentActivityView(model)
 
                 setForwardButtonContent(
                     R.string.buttonForwardNextActivity,
@@ -128,8 +127,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             is FlowRunningLastActivity -> {
-                val currentActivity = flowStatus.currentActivity
-                updateCurrentActivityView(model, currentActivity)
+                updateCurrentActivityView(model)
 
                 setForwardButtonContent(
                     R.string.buttonForwardFinishFlow,
@@ -150,15 +148,19 @@ class MainActivity : AppCompatActivity() {
         textFlowFinishTime.text = model.flowFinishTime().toString()
     }
 
-    private fun updateCurrentActivityView(
-        model: RunningFlowModel,
-        currentActivity: FlowActivity
-    ) {
-        textCurrentActivity.text = currentActivity.activityName
-        textCurrentActivityRemaining.text =
-            model.currentActivityRemainingDuration().toString()
-        textCurrentActivityFinishTime.text =
-            model.currentActivityFinishTime().toString()
+    private fun updateCurrentActivityView(model: RunningFlowModel) {
+        val activityInfo = model.currentActivityInfo()
+
+        textCurrentActivity.text = activityInfo.activityName
+
+        when (activityInfo) {
+            is CurrentFixedActivityInfo -> {
+                textCurrentActivityRemaining.text =
+                    activityInfo.remainingDuration.toString()
+                textCurrentActivityFinishTime.text =
+                    activityInfo.plannedFinishTime.toString()
+            }
+        }
     }
 
     private fun setForwardButtonContent(

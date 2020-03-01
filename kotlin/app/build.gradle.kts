@@ -42,6 +42,7 @@ dependencies {
     implementation(
         group = "com.google.guava", name = "guava", version = "28.2-android")
 
+    testCompile(group = "com.natpryce", name = "hamkrest", version = "1.7.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 
@@ -55,7 +56,7 @@ tasks.withType<Test> {
 
     // tells the test runner to display results of all tests,
     // not just failed ones
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
+//    testLogging {
+//        events("passed", "skipped", "failed")
+//    }
 }
