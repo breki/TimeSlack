@@ -55,6 +55,40 @@ data class RunningFlowModel(
         }
     }
 
+    fun flowStatus(): FlowStatus {
+        val currentActivityIndex = activitiesLog.currentActivityIndex()
+
+        // TODO: replace these conditions with checking the flowLog.currentStep()
+        return when {
+            currentActivityIndex < flow.activities.count() - 1 ->
+                FlowRunningWithMoreActivities(
+                    // TODO: handle the null case
+                    flowLog.currentStep()!!,
+                    flow.activities[currentActivityIndex],
+                    flow.activities[currentActivityIndex + 1])
+            currentActivityIndex == flow.activities.count() - 1 ->
+                FlowRunningLastActivity(
+                    flowLog.currentStep()!!,
+                    flow.activities[currentActivityIndex])
+            currentActivityIndex == flow.activities.count() -> FlowFinished
+            else -> throw IllegalStateException("BUG")
+        }
+    }
+
+    fun withCurrentTime(currentTime: SlackerTime): RunningFlowModel {
+        return RunningFlowModel(
+            flow, deadline, flowLog, activitiesLog, currentTime)
+    }
+
+    fun finishCurrentActivity(currentTime: SlackerTime): RunningFlowModel {
+        return RunningFlowModel(
+            flow,
+            deadline,
+            TODO(),
+            activitiesLog.finishActivity(currentTime),
+            currentTime)
+    }
+
     private fun calculatedFlowFinishTime(): SlackerTime {
         return when (val activity = currentActivity()) {
             is FixedActivity -> {
@@ -71,7 +105,7 @@ data class RunningFlowModel(
 
                 val totalDurationInMinutes =
                     currentActivityRunningTimeInMinutes +
-                    remainingActivitiesExpectedDuration().durationInMinutes
+                            remainingActivitiesExpectedDuration().durationInMinutes
 
                 activitiesLog.currentActivityStartTime()
                     .add(SlackerDuration(totalDurationInMinutes))
@@ -103,35 +137,5 @@ data class RunningFlowModel(
 
     private fun currentActivityDuration(): SlackerDuration {
         return currentTime.diffFrom(activitiesLog.currentActivityStartTime())
-    }
-
-    fun flowStatus(): FlowStatus {
-        val currentActivityIndex = activitiesLog.currentActivityIndex()
-
-        return when {
-            currentActivityIndex < flow.activities.count() - 1 ->
-                FlowRunningWithMoreActivities(
-                    flow.activities[currentActivityIndex],
-                    flow.activities[currentActivityIndex + 1])
-            currentActivityIndex == flow.activities.count() - 1 ->
-                FlowRunningLastActivity(
-                    flow.activities[currentActivityIndex])
-            currentActivityIndex == flow.activities.count() -> FlowFinished
-            else -> throw IllegalStateException("BUG")
-        }
-    }
-
-    fun withCurrentTime(currentTime: SlackerTime): RunningFlowModel {
-        return RunningFlowModel(
-            flow, deadline, flowLog, activitiesLog, currentTime)
-    }
-
-    fun finishCurrentActivity(currentTime: SlackerTime): RunningFlowModel {
-        return RunningFlowModel(
-            flow,
-            deadline,
-            TODO(),
-            activitiesLog.finishActivity(currentTime),
-            currentTime)
     }
 }

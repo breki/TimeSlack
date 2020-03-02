@@ -29,6 +29,7 @@ data class Flow(
                 }
         }
 
-        return FlowLog(steps.flatten())
+        // TODO: test for asserting the startTime was used here
+        return FlowLog(steps.flatten(), ImmutableList.of(SlackerTime.of(1, 1)))
     }
 }

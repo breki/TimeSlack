@@ -8,7 +8,13 @@ class RunningFlowModelBuilder {
 
     fun andCurrentStep(stepIndex: Int, activityStartTime: SlackerTime):
             RunningFlowModelBuilder {
-        log = flow!!.startFlow(activityStartTime)
+
+        var buildingLog = flow!!.startFlow(activityStartTime)
+        for (x in 1..stepIndex) {
+            buildingLog = buildingLog.finishStep(activityStartTime)
+        }
+        log = buildingLog
+
         activitiesLog = ActivitiesLog(
             flow!!.activities.count(),
             (0..stepIndex).map { activityStartTime })

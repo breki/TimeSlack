@@ -1,3 +1,4 @@
+- add new status with the dynamic forward step
 - extract a new identity: FlowStep
     - introduce FlowLog instead of ActivitiesLog, which is constructed when the flow is started and then filled with time points
     - three types of steps
