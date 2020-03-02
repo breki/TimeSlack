@@ -12,7 +12,7 @@ class `Flow status is` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(2, startTime)
+            .andCurrentStep(2, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
@@ -30,7 +30,7 @@ class `Flow status is` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(6, startTime)
+            .andCurrentStep(6, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
@@ -47,7 +47,7 @@ class `Flow status is` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(7, startTime)
+            .andCurrentStep(7, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(FlowFinished, model.flowStatus())

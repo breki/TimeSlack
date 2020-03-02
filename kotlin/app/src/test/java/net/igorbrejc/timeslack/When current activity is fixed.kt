@@ -12,7 +12,7 @@ class `When current activity is fixed` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(0, startTime)
+            .andCurrentStep(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
 
@@ -33,7 +33,7 @@ class `When current activity is fixed` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(0, startTime)
+            .andCurrentStep(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
 
@@ -57,7 +57,7 @@ class `When current activity is fixed` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(0, startTime)
+            .andCurrentStep(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
 
@@ -78,7 +78,7 @@ class `When current activity is fixed` {
         val model: RunningFlowModel = RunningFlowModelBuilder()
             .givenAFlow()
             .andDeadlineOf(startTime.add(SlackerDuration(20)))
-            .andCurrentActivity(0, startTime)
+            .andCurrentStep(0, startTime)
             .andCurrentTimeOf(currentTime)
             .build()
 

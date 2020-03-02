@@ -6,6 +6,7 @@ import kotlin.math.max
 data class RunningFlowModel(
     val flow: Flow,
     val deadline: SlackerTime,
+    val flowLog: FlowLog,
     val activitiesLog: ActivitiesLog,
     val currentTime: SlackerTime
 ) {
@@ -121,13 +122,15 @@ data class RunningFlowModel(
     }
 
     fun withCurrentTime(currentTime: SlackerTime): RunningFlowModel {
-        return RunningFlowModel(flow, deadline, activitiesLog, currentTime)
+        return RunningFlowModel(
+            flow, deadline, flowLog, activitiesLog, currentTime)
     }
 
     fun finishCurrentActivity(currentTime: SlackerTime): RunningFlowModel {
         return RunningFlowModel(
             flow,
             deadline,
+            TODO(),
             activitiesLog.finishActivity(currentTime),
             currentTime)
     }

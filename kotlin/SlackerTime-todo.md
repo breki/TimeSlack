@@ -1,4 +1,9 @@
+- extract a new identity: FlowStep
+    - introduce FlowLog instead of ActivitiesLog, which is constructed when the flow is started and then filled with time points
+    - three types of steps
+
 - we will need to model the ActivityLog to support dynamic activities
+    - does it really need to support history?
 
 - extract a model for presenting the current activity information
     - introduce the model implementation for dynamic activity
@@ -25,6 +30,9 @@
 - can we test the Android activity itself?
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Mon 2.3.
+- Started introducing flow steps.
 
 ## Sun 1.3.
 - Merged all tests with fixed current activity.

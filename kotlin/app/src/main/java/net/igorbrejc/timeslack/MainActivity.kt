@@ -77,9 +77,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         val startTime = clock.now()
+        val flowLog = flow.startFlow(startTime)
         val activitiesLog = flow.createActivitiesLog(startTime)
         val deadline = SlackerTime.of(11, 0)
-        return RunningFlowModel(flow, deadline, activitiesLog, startTime)
+        return RunningFlowModel(
+            flow, deadline, flowLog, activitiesLog, startTime)
     }
 
     private fun processMessage(
