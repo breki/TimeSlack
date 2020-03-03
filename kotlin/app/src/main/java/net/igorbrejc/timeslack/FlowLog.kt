@@ -3,7 +3,7 @@ package net.igorbrejc.timeslack
 import com.google.common.collect.ImmutableList
 import java.lang.IllegalArgumentException
 
-data class FlowLog (
+data class FlowLog(
     val steps: List<FlowStep>,
     val timePoints: List<SlackerTime>
 ) {
@@ -26,6 +26,14 @@ data class FlowLog (
         return steps[timePoints.count() - 1]
     }
 
+    fun nextStep(): FlowStep? {
+        return when {
+            timePoints.count() < steps.count() ->
+                steps[timePoints.count()]
+            else -> null
+        }
+    }
+
     fun finishStep(finishTime: SlackerTime): FlowLog {
         return FlowLog(
             steps,
@@ -34,4 +42,3 @@ data class FlowLog (
                 .build())
     }
 }
-

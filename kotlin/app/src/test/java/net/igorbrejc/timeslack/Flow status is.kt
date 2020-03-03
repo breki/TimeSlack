@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class `Flow status is` {
     @Test
-    fun `RunningWithMoreActivities when there are still some remaining activities`() {
+    fun `RunningWithMoreSteps when there are still some remaining steps`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
@@ -16,15 +16,14 @@ class `Flow status is` {
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
-            FlowRunningWithMoreActivities(
+            FlowRunningWithMoreSteps(
                 FixedActivityStep("prepare for hiking"),
-                FixedActivity("prepare for hiking", SlackerDuration(5)),
-                FixedActivity("hiking", SlackerDuration(60))),
+                FixedActivityStep("hiking")),
             model.flowStatus())
     }
 
     @Test
-    fun `RunningLastActivity when the last activity is running`() {
+    fun `RunningLastStep when the last step is running`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 
@@ -35,14 +34,13 @@ class `Flow status is` {
             .andCurrentTimeOf(currentTime)
             .build()
         Assertions.assertEquals(
-            FlowRunningLastActivity(
-                FixedActivityStep("wash & dress"),
-                FixedActivity("wash & dress", SlackerDuration(15))),
+            FlowRunningLastStep(
+                FixedActivityStep("wash & dress")),
             model.flowStatus())
     }
 
     @Test
-    fun `Finished when the last activity has finished`() {
+    fun `Finished when the last step has finished`() {
         val startTime = SlackerTime.of(10, 20)
         val currentTime = startTime.add(SlackerDuration(10))
 

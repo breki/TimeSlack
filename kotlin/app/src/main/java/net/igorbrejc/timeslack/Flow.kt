@@ -16,12 +16,12 @@ data class Flow(
             activity ->
                 when (activity) {
                     is FixedActivity -> {
-                        ImmutableList.of (
+                        ImmutableList.of(
                             FixedActivityStep(activity.activityName))
                     }
 
                     is DynamicActivity -> {
-                        ImmutableList.of (
+                        ImmutableList.of(
                             DynamicActivityForwardStep(activity.activityName),
                             DynamicActivityReturnStep(
                                 activity.activityName + " (return)"))

@@ -32,6 +32,9 @@
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
+## Tue 3.3.
+- Redesigned the existing status classes to only work with steps, no longer with activities.
+
 ## Mon 2.3.
 - Started introducing flow steps.
 

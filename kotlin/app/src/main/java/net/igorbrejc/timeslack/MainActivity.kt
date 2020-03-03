@@ -95,9 +95,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 is NextActivityButtonClicked ->
                     when (model.flowStatus()) {
-                        is FlowRunningWithMoreActivities ->
+                        is FlowRunningWithMoreSteps ->
                             model.finishCurrentActivity(message.currentTime)
-                        is FlowRunningLastActivity ->
+                        is FlowRunningLastStep ->
                             model.finishCurrentActivity(message.currentTime)
                         is FlowFinished -> {
                             // todo: do nothing for now, but in the future,
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateView(model: RunningFlowModel) {
         when (val flowStatus = model.flowStatus()) {
-            is FlowRunningWithMoreActivities -> {
+            is FlowRunningWithMoreSteps -> {
                 updateCurrentActivityView(model)
 
                 setForwardButtonContent(
@@ -124,11 +124,10 @@ class MainActivity : AppCompatActivity() {
 
                 labelNextActivity.visibility = View.VISIBLE
                 textNextActivity.visibility = View.VISIBLE
-                val nextActivity = flowStatus.nextActivity
-                textNextActivity.text = nextActivity.activityName
+                textNextActivity.text = flowStatus.nextStep.stepName
             }
 
-            is FlowRunningLastActivity -> {
+            is FlowRunningLastStep -> {
                 updateCurrentActivityView(model)
 
                 setForwardButtonContent(

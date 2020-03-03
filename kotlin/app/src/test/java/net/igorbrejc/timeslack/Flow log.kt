@@ -1,6 +1,8 @@
 package net.igorbrejc.timeslack
 
 import com.google.common.collect.ImmutableList
+import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -85,6 +87,21 @@ class `Flow log` {
     }
 
     @Test
+    fun `when flow log is created, it returns the second step as the next step`() {
+        val flow = FlowBuilder()
+            .addActivity(FixedActivity("prepare things", SlackerDuration(10)))
+            .addActivity(FixedActivity("drive", SlackerDuration(15)))
+            .build()
+
+        val flowStartTime = SlackerTime.of(10, 22)
+        val log = flow.startFlow(flowStartTime)
+
+        assertEquals(
+            FixedActivityStep("drive"),
+            log.nextStep())
+    }
+
+    @Test
     fun `when a step is finished, the next step is the current step`() {
         val flow = FlowBuilder()
             .addActivity(FixedActivity("prepare things", SlackerDuration(10)))
@@ -96,5 +113,20 @@ class `Flow log` {
             .finishStep(SlackerTime.of(10, 30))
 
         assertEquals(FixedActivityStep("drive"), log.currentStep())
+    }
+
+    @Test
+    fun `when the current step is the last step, next step is null`() {
+        val flow = FlowBuilder()
+            .addActivity(FixedActivity("prepare things", SlackerDuration(10)))
+            .addActivity(FixedActivity("drive", SlackerDuration(15)))
+            .build()
+
+        val flowStartTime = SlackerTime.of(10, 22)
+        val log = flow.startFlow(flowStartTime)
+            .finishStep(SlackerTime.of(10, 30))
+            .finishStep(SlackerTime.of(10, 30))
+
+        assertThat(log.nextStep(), equalTo<FlowStep>(null))
     }
 }

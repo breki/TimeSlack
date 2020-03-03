@@ -2,15 +2,17 @@ package net.igorbrejc.timeslack
 
 sealed class FlowStatus
 
-data class FlowRunningWithMoreActivities(
+data class FlowRunningWithMoreSteps(
     val currentStep: FlowStep,
-    val currentActivity: FlowActivity,
-    val nextActivity: FlowActivity
+    val nextStep: FlowStep
 ) : FlowStatus()
 
-data class FlowRunningLastActivity(
-    val currentStep: FlowStep,
-    val currentActivity: FlowActivity
+//data class FlowRunningWithDynamicForwardStep(
+//    val
+//)
+
+data class FlowRunningLastStep(
+    val currentStep: FlowStep
 ) : FlowStatus()
 
 object FlowFinished : FlowStatus()

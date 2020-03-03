@@ -12,8 +12,8 @@ data class RunningFlowModel(
 ) {
     fun flowFinishTime(): SlackerTime {
         return when (flowStatus()) {
-            is FlowRunningWithMoreActivities -> calculatedFlowFinishTime()
-            is FlowRunningLastActivity -> calculatedFlowFinishTime()
+            is FlowRunningWithMoreSteps -> calculatedFlowFinishTime()
+            is FlowRunningLastStep -> calculatedFlowFinishTime()
             is FlowFinished -> activitiesLog.currentActivityStartTime()
         }
     }
@@ -61,15 +61,13 @@ data class RunningFlowModel(
         // TODO: replace these conditions with checking the flowLog.currentStep()
         return when {
             currentActivityIndex < flow.activities.count() - 1 ->
-                FlowRunningWithMoreActivities(
+                FlowRunningWithMoreSteps(
                     // TODO: handle the null case
                     flowLog.currentStep()!!,
-                    flow.activities[currentActivityIndex],
-                    flow.activities[currentActivityIndex + 1])
+                    // TODO: handle the null case
+                    flowLog.nextStep()!!)
             currentActivityIndex == flow.activities.count() - 1 ->
-                FlowRunningLastActivity(
-                    flowLog.currentStep()!!,
-                    flow.activities[currentActivityIndex])
+                FlowRunningLastStep(flowLog.currentStep()!!)
             currentActivityIndex == flow.activities.count() -> FlowFinished
             else -> throw IllegalStateException("BUG")
         }
@@ -105,7 +103,7 @@ data class RunningFlowModel(
 
                 val totalDurationInMinutes =
                     currentActivityRunningTimeInMinutes +
-                            remainingActivitiesExpectedDuration().durationInMinutes
+                    remainingActivitiesExpectedDuration().durationInMinutes
 
                 activitiesLog.currentActivityStartTime()
                     .add(SlackerDuration(totalDurationInMinutes))
