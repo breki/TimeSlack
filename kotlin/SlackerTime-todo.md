@@ -42,6 +42,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Wed 4.3.
+- Started working on the new RunningFlowState class.
 - Defined view classes.
 
 ## Tue 3.3.
