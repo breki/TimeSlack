@@ -1,3 +1,8 @@
+- new system:
+    - we have the main state class (without the current time)
+    - each event/message produces a new state + view
+    - a function then applies to the view to the MainActivity
+
 - do we represent the whole view model as separate classes?
 
 - Model
@@ -35,6 +40,9 @@
 - can we test the Android activity itself?
 - how to log in Android?
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
+
+## Wed 4.3.
+- Defined view classes.
 
 ## Tue 3.3.
 - "Next step" button now displays special text if the current step is the first phase of a dynamic activity.
