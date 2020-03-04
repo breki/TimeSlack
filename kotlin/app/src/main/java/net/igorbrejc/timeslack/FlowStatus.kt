@@ -7,10 +7,6 @@ data class FlowRunningWithMoreSteps(
     val nextStep: FlowStep
 ) : FlowStatus()
 
-//data class FlowRunningWithDynamicForwardStep(
-//    val
-//)
-
 data class FlowRunningLastStep(
     val currentStep: FlowStep
 ) : FlowStatus()

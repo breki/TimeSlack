@@ -1,10 +1,14 @@
-- add new status with the dynamic forward step
-- extract a new identity: FlowStep
-    - introduce FlowLog instead of ActivitiesLog, which is constructed when the flow is started and then filled with time points
-    - three types of steps
+- do we represent the whole view model as separate classes?
 
-- we will need to model the ActivityLog to support dynamic activities
-    - does it really need to support history?
+- Model
+    - Status
+        - Step
+    - CurrentActivityInfo?
+
+- introduce FlowLog instead of ActivitiesLog, which is constructed when the flow is started and then filled with time points
+    - replace RunningFlowModel.currentActivityInfo()
+    - RunningFlowModel should no longer provide currentActivity
+    - where is ActivitiesLog used?
 
 - extract a model for presenting the current activity information
     - introduce the model implementation for dynamic activity
@@ -33,6 +37,7 @@
 - implement calculation of whether a certain plan can be done or not (based on the deadline and given current time)
 
 ## Tue 3.3.
+- "Next step" button now displays special text if the current step is the first phase of a dynamic activity.
 - Redesigned the existing status classes to only work with steps, no longer with activities.
 
 ## Mon 2.3.

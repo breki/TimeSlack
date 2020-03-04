@@ -116,52 +116,54 @@ class MainActivity : AppCompatActivity() {
     private fun updateView(model: RunningFlowModel) {
         when (val flowStatus = model.flowStatus()) {
             is FlowRunningWithMoreSteps -> {
-                updateCurrentActivityView(model)
+                showCurrentStep(
+                    flowStatus.currentStep.stepName,
+                    // TODO: fetch this data from the step
+                    SlackerDuration.zero,
+                    SlackerTime.now())
+
+                val nextStepButtonText =
+                    when (flowStatus.currentStep) {
+                        is FixedActivityStep ->
+                            R.string.buttonForwardNextActivity
+                        is DynamicActivityForwardStep ->
+                            R.string.buttonForwardStartReturning
+                        is DynamicActivityReturnStep ->
+                            R.string.buttonForwardNextActivity
+                    }
 
                 setForwardButtonContent(
-                    R.string.buttonForwardNextActivity,
+                    nextStepButtonText,
                     R.drawable.ic_check_black_24dp)
 
-                labelNextActivity.visibility = View.VISIBLE
-                textNextActivity.visibility = View.VISIBLE
-                textNextActivity.text = flowStatus.nextStep.stepName
+                showNextStep(flowStatus.nextStep.stepName)
             }
 
             is FlowRunningLastStep -> {
-                updateCurrentActivityView(model)
+                showCurrentStep(
+                    flowStatus.currentStep.stepName,
+                    // TODO: fetch this data from the step
+                    SlackerDuration.zero,
+                    SlackerTime.now())
 
                 setForwardButtonContent(
                     R.string.buttonForwardFinishFlow,
                     R.drawable.ic_playlist_add_check_black_24dp)
 
-                labelNextActivity.visibility = View.INVISIBLE
-                textNextActivity.visibility = View.INVISIBLE
+                hideNextStep()
             }
 
             is FlowFinished -> {
                 setForwardButtonContent(
                     R.string.buttonForwardClose,
                     R.drawable.ic_playlist_add_check_black_24dp)
+                hideCurrentStep()
+                hideNextStep()
             }
         }
 
         textSlackRemaining.text = model.slackDuration().toString()
         textFlowFinishTime.text = model.flowFinishTime().toString()
-    }
-
-    private fun updateCurrentActivityView(model: RunningFlowModel) {
-        val activityInfo = model.currentActivityInfo()
-
-        textCurrentActivity.text = activityInfo.activityName
-
-        when (activityInfo) {
-            is CurrentFixedActivityInfo -> {
-                textCurrentActivityRemaining.text =
-                    activityInfo.remainingDuration.toString()
-                textCurrentActivityFinishTime.text =
-                    activityInfo.plannedFinishTime.toString()
-            }
-        }
     }
 
     private fun setForwardButtonContent(
@@ -171,6 +173,36 @@ class MainActivity : AppCompatActivity() {
         buttonForward.setText(textResourceId)
         buttonForward.setCompoundDrawablesWithIntrinsicBounds(
             imageResourceId, 0, 0, 0)
+    }
+
+    private fun showCurrentStep(
+        currentStepName: String,
+        remainingDuration: SlackerDuration,
+        plannedFinishTime: SlackerTime) {
+        textCurrentActivity.text = currentStepName
+        textCurrentActivityRemaining.text = remainingDuration.toString()
+        textCurrentActivityFinishTime.text = plannedFinishTime.toString()
+
+        textCurrentActivity.visibility = View.VISIBLE
+        textCurrentActivityRemaining.visibility = View.VISIBLE
+        textCurrentActivityFinishTime.visibility = View.VISIBLE
+    }
+
+    private fun hideCurrentStep() {
+        textCurrentActivity.visibility = View.INVISIBLE
+        textCurrentActivityRemaining.visibility = View.INVISIBLE
+        textCurrentActivityFinishTime.visibility = View.INVISIBLE
+    }
+
+    private fun showNextStep(nextStepName: String) {
+        labelNextActivity.visibility = View.VISIBLE
+        textNextActivity.visibility = View.VISIBLE
+        textNextActivity.text = nextStepName
+    }
+
+    private fun hideNextStep() {
+        labelNextActivity.visibility = View.INVISIBLE
+        textNextActivity.visibility = View.INVISIBLE
     }
 
     private val clock: Clock = TimeMachine(20.0)
